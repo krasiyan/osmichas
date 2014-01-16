@@ -1,0 +1,3 @@
+[submodule "Kohana"]
+	path = Kohana
+	url = https://github.com/kohana/kohana.git

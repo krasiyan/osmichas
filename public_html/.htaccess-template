@@ -1,0 +1,39 @@
+# Turn on URL rewriting
+RewriteEngine On
+
+AddDefaultCharset UTF-8
+
+# Installation directory
+RewriteBase /
+
+# Protect hidden files from being viewed
+<Files .ht*>
+	Order Deny,Allow
+	Deny From All
+</Files>
+
+<FilesMatch "\.(php)$">
+	ExpiresActive Off
+	Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+	Header set Pragma "no-cache"
+</FilesMatch>
+
+# Protect application and system files from being viewed
+RewriteRule ^(?:application|modules|system)\b.* index.php/$0 [L]
+
+# Allow any files or directories that exist to be displayed directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite all other URLs to index.php/URL
+RewriteRule .* index.php/$0 [PT]
+
+SetEnv BASE_URL "/"
+
+# KOHANA_ENV values: development|production|staging
+SetEnv KOHANA_ENV "development"
+
+SetEnv PROJECT_NAME "osmichas"
+
+# define path to Kohana framework source
+SetEnv FRAMEWORK_PATH "../"
