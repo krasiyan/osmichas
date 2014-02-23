@@ -23,12 +23,22 @@
 						<button type="submit" class="btn btn-default">Търси</button>
 					</form>
 				</li>
-				<li><a href="#upload">Добави материал</a></li>
-				<li><a href="#about">За проекта</a></li>
+				<li><a href="<?= URL::site('/upload') ?>">Добави материал</a></li>
+				<li><a href="<?= URL::site('/about') ?>">За проекта</a></li>
 				<!-- <li><a href="#contact">Контакти</a></li> -->
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
+				<form class="navbar-form navbar-right" role="form">
+					<div class="form-group">
+						<input type="text" placeholder="Email" class="form-control">
+					</div>
+					<div class="form-group">
+						<input type="password" placeholder="Парола" class="form-control">
+					</div>
+					<button type="submit" class="btn btn-success">Вход</button>
+				</form>
+
+				<!-- <li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 						Избери категория <b class="caret"></b>
 					</a>
@@ -41,7 +51,7 @@
 						<li><a href="#">Separated link</a></li>
 						<li><a href="#">One more separated link</a></li>
 					</ul>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 	</div>
