@@ -17,7 +17,7 @@
 				<!-- <li class="active"><a href="#">Търси</a></li> -->
 				<?php if( $controller != 'search' ): ?>
 					<li>
-						<form action="<?= URL::site() ?>" method="POST" class="navbar-form navbar-left" role="search" >
+						<form action="<?= URL::site() ?>" method="POST" id="header-search-form" class="navbar-form navbar-left" role="search" >
 							<div class="input-group input-normal" id="header-search-wrapper">
 								<input type="text" name="query" class="form-control input-normal" id="header-search" placeholder="Въведи ключова дума">
 								<div class="input-group-btn">
@@ -36,14 +36,19 @@
 				<!-- <li><a href="#contact">Контакти</a></li> -->
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<form class="navbar-form navbar-right" role="form">
-					<div class="form-group">
-						<input type="text" placeholder="Имейл" class="form-control">
-					</div>
-					<div class="form-group">
-						<input type="password" placeholder="Парола" class="form-control">
-					</div>
-					<button type="submit" class="btn btn-success">Вход</button>
+				<form class="navbar-form navbar-right form-inline" id="header-login" role="form">
+					<!-- <div class="control-group input-group" id="header-search-wrapper"> -->
+						<div class="form-group control-group">
+							<input type="text" name="email" placeholder="Имейл" class="form-control">	
+						</div>
+						<div class="form-group control-group">
+							<input type="password" name="password" placeholder="Парола" class="form-control">
+						</div>
+						<div class="btn-group">
+							<button type="submit" class="btn btn-success">Вход</button>
+							<button type="submit" class="btn btn-info">Нямаш парола?</button>
+						</div>
+					<!-- </div> -->
 				</form>
 
 				<!-- <li class="dropdown">

@@ -27,12 +27,7 @@ body {
 	padding-top: 10px !important;
 }
 
-/* fix negative right padding of the login section */
-.navbar-nav.navbar-right:last-child{
-	margin-right: 0px !important;
-}
-
-/* Begin search2 fixes */
+/* Begin select2 fixes */
 	#home-search-wrapper input[type="text"].select2-input {
 		height: 43px !important;
 		font-size: 19px !important ;
@@ -63,4 +58,23 @@ body {
 	#header-search-wrapper .select2-container-multi .select2-search-choice-close {
 		top: 6px;
 	}
-/* End search2 fixes */
+
+	.select2-results {
+		max-height: 500px !important;
+	}
+
+/* End select2 fixes */
+
+/* reduce the width of the header login form */
+#header-login input {
+	max-width:140px !important;
+}
+
+#header-login .form-group{
+	vertical-align: top !important;
+}
+
+/* fix negative right padding of the login section */
+.navbar-nav.navbar-right:last-child{
+	margin-right: 0px !important;
+}
