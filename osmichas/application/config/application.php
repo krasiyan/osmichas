@@ -1,10 +1,10 @@
 <?php defined('SYSPATH') or die('No direct access allowed!');
 
 return array(
-	'title' => 'Osmichas',
+	'title' => 'Осми час',
 	'meta' => array(
 		'author' => 'Krasiyan Nedelchev',
-		'description' => ""
+		'description' => "",
 	),
 
 	// application secret key

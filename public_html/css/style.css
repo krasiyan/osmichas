@@ -1,0 +1,27 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  padding-top: 70px;
+  margin-bottom: 60px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 30px;
+  background-color: #f5f5f5;
+  line-height: 30px;
+}
+
+#header-search {
+	/*min-width: 100px*/
+}
+
+.jumbotron {
+	padding-top: 10px !important;
+}
