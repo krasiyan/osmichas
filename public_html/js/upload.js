@@ -1,5 +1,6 @@
 $(document).ready(function () {
 	Dropzone.options.imageUpload = {
+		autoProcessQueue: true,
 		paramName: "image",
 		acceptedFiles: "image/*", 
 		maxFiles: 1,
@@ -13,16 +14,11 @@ $(document).ready(function () {
 		dictMaxFilesExceeded: 'Не можеш да добавяш повече от 1 изображение наведнъж',
 		dictInvalidFileType: 'Можеш да добавяш само изображения',
 		init: function() {
-			this.on("addedfile", function(file) {
-				$("#start-upload").hide();
-				$("#start-upload").removeClass('hidden');
-				$("#start-upload").fadeIn('slow');
-			});
-
-			this.on("removedfile", function(file) {
-				if( !this.files.length )
-					$("#start-upload").fadeOut('slow');
-			});
+		},
+		success: function(file, response){
+			if( !isNaN(response) ) {
+				window.location = osmichas.url_base+"image/tag/"+response;
+			}
 		}
 	};
 })

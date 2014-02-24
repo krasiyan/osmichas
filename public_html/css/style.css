@@ -28,6 +28,11 @@ body {
 }
 
 /* Begin select2 fixes */
+	/* predefine the home and header search input height, in case select2 doesn't init  */
+	#home-search {
+		height: 45px !important;
+	}
+
 	#home-search-wrapper input[type="text"].select2-input {
 		height: 43px !important;
 		font-size: 19px !important ;

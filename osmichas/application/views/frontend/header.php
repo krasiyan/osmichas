@@ -28,10 +28,10 @@
 					</li>
 				<?php endif; ?>
 				<li class="<?= $controller == 'upload' ? 'active' : '' ?>">
-					<a href="<?= URL::site('/upload') ?>">Добави материал</a>
+					<a href="<?= URL::site('image/upload') ?>">Добави материал</a>
 				</li>
 				<li class="<?= $controller == 'about' ? 'active' : '' ?>">
-					<a href="<?= URL::site('/about') ?>">За проекта</a>
+					<a href="<?= URL::site('about') ?>">За проекта</a>
 				</li>
 				<!-- <li><a href="#contact">Контакти</a></li> -->
 			</ul>

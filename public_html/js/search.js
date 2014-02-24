@@ -1,34 +1,37 @@
 $(document).ready(function () {
-	var preload_data = [
-		{ text: 'Можеш да ибереш една или повече категории', disabled: true},
-		{ id: 'year_all', text: 'Учебни години 1-12 клас', children:[
-			{ id: 'year_1', text: '1 клас'},
-			{ id: 'year_2', text: '2 клас'},
-			{ id: 'year_3', text: '3 клас'},
-			{ id: 'year_4', text: '4 клас'},
-			{ id: 'year_5', text: '5 клас'},
-		]},		
-		{ id: 'bio', text: 'Биология', children:[
-			{ id: 'bio_anat', text: 'Анатомия'},
-			{ id: 'bio_eco', text: 'Екология'},
-			{ id: 'bio_oth', text: 'Еволюция'}
-		]},
-		{ id: 'math', text: 'Математика', children: [
-			{ id: 'math_geo', text: 'Геометрия'},
-			{ id: 'math_alg', text: 'Алгебра'}
-		]}
-			
-	];
-	
-	$('#home-search').add('#header-search').select2({
-		tags:[],
-		data:preload_data,
-		maximumInputLength: 30,
-		selectOnBlur: true,
-		minimumResultsForSearch: 100,
+	$.ajax(osmichas.url_base + "ajax/labels/", {
+		dataType: 'json',
+		async: true
+	}).done(function (data) {
+		var headline = [{ text: 'Можеш да ибереш една или повече категории', disabled: true}];
+		var data_with_headline = headline.concat(data);
 
-		createSearchChoice: function(term) {
-			return {id: term, text: term};
-		}
+		$('#home-search').add('#header-search').select2({
+			data: data_with_headline,
+			tags: [],
+			maximumInputLength: 30,
+			selectOnBlur: true,
+			minimumResultsForSearch: 100,
+			createSearchChoice: function(term) {
+				return {id: term, text: term};
+			},
+			formatSearching: function() {return 'Търсене...'},
+			formatNoMatches: function() {return 'Няма намерени съвпадения...'}
+			// ajax: {
+			// 	url: osmichas.url_base + "ajax/userlabels",
+			// 	dataType: 'json',
+			// 	data: function (term, page) {
+			// 		return {
+			// 			q: term, // search term
+			// 			page_limit: 10
+			// 		};
+			// 	},
+			// 	results: function (data, page) { // parse the results into the format expected by Select2.
+			// 		// since we are using custom formatting functions we do not need to alter remote JSON data
+			// 		// return {results: data.movies};
+			// 		console.log(data);
+			// 	}
+			// },
+		});
 	});
 })
