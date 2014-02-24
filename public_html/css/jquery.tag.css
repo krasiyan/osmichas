@@ -1,3 +1,7 @@
+.jTagContainer {
+	margin: 0 auto;
+}
+
 .jTagArea{
 }
 
@@ -10,7 +14,7 @@
 .jTagDrag{
 	width:100px;
 	height:100px;
-	border:1px dashed black;
+	border:1px dashed red;
 	cursor: move;
 }
 
@@ -44,7 +48,7 @@
 	display: none;
 	cursor: pointer;
 	position: absolute;
-	bottom: 0px;
+	bottom: -25px;
 	right: 0px;
 	z-index:5;
 	width: 20px;
@@ -68,7 +72,7 @@
 
 .jTagTag{
 	opacity: 0;
-	border:2px solid black;
+	border:2px solid red;
 	position:absolute;
 }
 
@@ -78,10 +82,11 @@
 	color:#fff;
 	height:20px;
 	position: absolute;
-	bottom: 0px;
+	bottom: -23px;
 	text-align: center;
 	font-size: 10px;
 	line-height:20px;
+	left: 0px;
 }
 
 .jTagLabels{

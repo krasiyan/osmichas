@@ -10,7 +10,7 @@ return array(
 			'js/libs/select2.min.js',
 			'js/libs/dropzone.min.js',
 			'js/libs/jquery.validate.js',
-			'js/libs/jquery.tag.min.js',
+			'js/libs/jquery.tag.js',
 			//end lib
 			
 			//begin custom
