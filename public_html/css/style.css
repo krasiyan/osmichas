@@ -65,7 +65,7 @@ body {
 	}
 
 	.select2-results {
-		max-height: 500px !important;
+		max-height: 300px !important;
 	}
 
 /* End select2 fixes */

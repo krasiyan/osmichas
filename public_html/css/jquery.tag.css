@@ -21,11 +21,17 @@
 
 .jTagInput{
 	margin-right:44px;
+	margin-left:20px;
 }
 
 .jTagSave{
 	width:100%;
-	background: black;
+	margin-top: -23px;
+	border-radius: 5px;
+	background-image: linear-gradient(to bottom, #5cb85c 0%, #419641 100%);
+	background-color: #3e8f3e;
+	background-repeat: repeat-x;
+	min-width:200px;
 }
 
 .jTagInput input{

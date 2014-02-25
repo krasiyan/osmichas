@@ -66,4 +66,61 @@ class Controller_Ajax extends Controller_Main {
 			print $image->id;
 		}
 	}
+
+	public function action_save_tag()
+	{
+		$image = ORM::factory('Image', $this->request->post('imageid'));
+		
+		if( 
+			! $this->request->post('imageid') OR 
+			! $image->loaded() OR
+			! $this->request->post('width') OR
+			! $this->request->post('height') OR
+			! $this->request->post('label')
+		) {
+			print 0;
+		}
+		else 
+		{
+			$tag = ORM::factory('Tag');
+			$tag->image = $image;
+			$tag->start_x = $this->request->post('left');
+			$tag->start_y = $this->request->post('top');
+			
+			$tag->end_x = $this->request->post('left') + $this->request->post('width');
+			$tag->end_y = $this->request->post('top') + $this->request->post('height');
+
+			$tag->label = $this->request->post('label');
+
+			if( $tag->save() )
+			{
+				print $tag->id;
+			}
+			else 
+			{
+				print '0';
+			}
+		}
+	}
+
+	public function action_delete_tag()
+	{
+		$image = ORM::factory('Image', $this->request->post('imageid'));
+		$tag = ORM::factory('Tag', $this->request->post('tagid'));
+		
+		if( 
+			! $this->request->post('imageid') OR 
+			! $image->loaded() OR
+			! $this->request->post('tagid') OR
+			! $tag->loaded() OR
+			$tag->image_id != $image->id
+		) {
+			print 0;
+		}
+		else 
+		{
+			$tag->delete();
+			print 1;
+		}
+	}
 }

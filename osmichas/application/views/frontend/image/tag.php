@@ -3,7 +3,7 @@
 
 	<div class="row-fluid">
 		<div class="span12 text-center">
-			<img src="<?= URL::site('image/fetch', TRUE) . '/' . $image->id; ?>" id="image" />
+			<img src="<?= URL::site('image/fetch', TRUE) . '/' . $image->id; ?>" data-iddb="<?= $image->id ?>" id="image" />
 		</div>
 	</div>
 	
@@ -14,7 +14,7 @@
 		<?php foreach( $image->tags->find_all() as $tag ): ?>
 			{
 				'id': <?= $tag->id ?>,
-				'label': 'test',
+				'label': '<?= $tag->label ?>',
 				'width': <?= $tag->end_x - $tag->start_x ?>, 
 				'height': <?= $tag->end_y - $tag->start_y ?>,
 				'top': <?= $tag->start_y ?>,
