@@ -5,12 +5,12 @@
  * @category Model
  * @author Krasiyan Nedelchev
  */
-class Model_Userlabel extends ORM {
+class Model_Tag extends ORM {
 
-	protected $_table_name = 'userlabel';
+	protected $_table_name = 'tag';
 	protected $_primary_key = 'id';
-	protected $_has_one = array(
-		'parent' => array('model' => 'Userlabel', 'foreign_key' => 'parent_id'),
+	protected $_belongs_to = array(
+		'image' => array('model' => 'Image', 'foreign_key' => 'image_id'),
 	);
 	
 }

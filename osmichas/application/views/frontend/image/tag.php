@@ -8,3 +8,18 @@
 	</div>
 	
 </div>
+
+<script>
+	var tags = [
+		<?php foreach( $image->tags->find_all() as $tag ): ?>
+			{
+				'id': <?= $tag->id ?>,
+				'label': 'test',
+				'width': <?= $tag->end_x - $tag->start_x ?>, 
+				'height': <?= $tag->end_y - $tag->start_y ?>,
+				'top': <?= $tag->start_y ?>,
+				'left': <?= $tag->start_x ?>
+			},
+		<?php endforeach; ?>
+	]
+</script>

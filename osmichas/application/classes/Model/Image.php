@@ -9,9 +9,10 @@ class Model_Image extends ORM {
 
 	protected $_table_name = 'image';
 	protected $_primary_key = 'id';
-	// protected $_has_many = array(
-	// 	'tags' => array('model' => 'Tag', 'foreign_key' => 'image_id'),
-	// );
+	protected $_has_many = array(
+		'tags' => array('model' => 'Tag', 'foreign_key' => 'image_id'),
+		'labels' => array('model' => 'Label', 'through' => 'image_label'),
+	);
 	
 	public function upload($image)
 	{

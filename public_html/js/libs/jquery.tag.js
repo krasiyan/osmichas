@@ -35,8 +35,8 @@
 				showTag: 'hover',
 				showLabels: true,
 				debug: false,
-        clickable: false,
-        click: null
+				clickable: false,
+				click: null
 			};
 			
 			var options = $.extend(defaults, options);  
@@ -220,7 +220,11 @@
 			
 			jtagdrag = $(".jTagDrag",overlay);
 			
+
 			jtagdrag.css("backgroundImage","url("+obj.attr('src')+")");
+			jtagarea = $(".jTagArea"); 
+			jtagdrag.css("background-size",jtagarea.width()+"px "+jtagarea.height()+"px ");
+
 			
 			jtagdrag.css("position", "absolute");
 			

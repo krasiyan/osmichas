@@ -45,12 +45,6 @@ class Controller_Ajax extends Controller_Main {
 		return $labels_rendered;
 	}
 
-	public function action_userlabels()
-	{
-		$a = array(1,2,3);
-		print json_encode($a);
-	}
-
 	public function action_upload_image()
 	{
 		$error = FALSE;
