@@ -23,13 +23,52 @@ class Controller_Image extends Controller_Main {
 		
 		$expires_header = 60*60*24*14;
 
-		$this->response->headers('Pragma', 'public');
-		$this->response->headers('Cache-Control', 'maxage='.$expires_header);
-		$this->response->headers('Expires', gmdate('D, d M Y H:i:s', time() + $expires_header) . ' GMT');
-		$this->response->headers('Content-length', $image->size);
-		$this->response->headers('Content-Type', 'image/gif');
+		// $this->response->headers('Pragma', 'public');
+		// $this->response->headers('Cache-Control', 'maxage='.$expires_header);
+		// $this->response->headers('Expires', gmdate('D, d M Y H:i:s', time() + $expires_header) . ' GMT');
+		// $this->response->headers('Content-length', $image->size);
+		$this->response->headers('Content-Type', 'image');
 
 		echo base64_decode($image->content);
+	}
+
+	public function action_fetch_tag(){
+		$this->auto_render = FALSE;
+
+		$tag = ORM::factory('Tag', (int) $this->request->param('id'));
+
+		if(  ! $this->request->param('id') OR ! $tag->loaded() OR ! $tag->image->loaded() )
+		{
+			$this->response->status(404);
+			return ;
+		}
+		
+		$expires_header = 60*60*24*14;
+
+		$this->response->headers('Content-Type', 'image');
+
+		$temp_image = tmpfile();
+		fwrite($temp_image, base64_decode($tag->image->content));
+		$temp_image_meta = stream_get_meta_data($temp_image);
+		$temp_image_path = ( isset($temp_image_meta['uri']) ? $temp_image_meta['uri'] : NULL );
+		
+		if( ! $temp_image_path )
+		{	
+			$this->response->status(404);
+			return ;
+		}
+
+		$image = Image::factory($temp_image_path);
+		
+		$width = $tag->end_x - $tag->start_x;
+		$height = $tag->end_y - $tag->start_y;
+
+		echo $image
+			->crop($width, $height, $tag->start_x, $tag->start_y)
+			->render();
+			
+		fclose($temp_image);
+
 	}
 
 	public function action_upload()

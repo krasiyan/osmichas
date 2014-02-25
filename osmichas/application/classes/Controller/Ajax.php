@@ -123,4 +123,34 @@ class Controller_Ajax extends Controller_Main {
 			print 1;
 		}
 	}
+
+	public function action_search_tags()
+	{
+		$results = array();
+		if( 
+			! $this->request->post('search') OR 
+			! ($parameters = explode(',', $this->request->post('search'))) OR
+			empty($parameters) 
+		)
+		{
+			print json_encode($results);
+		}
+		else {
+			$tags_gathered = array();
+			foreach( $parameters as $parameter )
+			{
+				$tags = ORM::factory('Tag')
+					// ->where('label', 'LIKE', $parameter)
+					->where(
+						'tag.label', 
+						'SOUNDS LIKE', 
+						$parameter
+					)
+					->find_all()
+					->as_array('id', 'label');
+				$tags_gathered += $tags;
+			}
+			print json_encode($tags_gathered);
+		}
+	}
 }

@@ -34,4 +34,26 @@ $(document).ready(function () {
 			// },
 		});
 	});
+
+	$("#home-search-form").bind('submit', function(e){
+		e.preventDefault();
+		if ( $("#home-search").val() ) {
+			$.ajax(osmichas.url_base + "ajax/search_tags", {
+				method: 'POST',
+				dataType: 'json',
+				async: true,
+				data: {
+					'search': $("#home-search").val()
+				}
+			}).done(function (data) {
+				$('#search-results').html('');
+				for (image in data){
+					$('#search-results').append(
+						'<img src="' + 
+							osmichas.url_base +'image/fetch_tag/'+image+'" alt="'+data[image]+'" title="'+data[image]+'" />'
+					);
+				}
+			});
+		}
+	})
 })
