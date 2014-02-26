@@ -37,7 +37,11 @@ $(document).ready(function () {
 				fitToView: true,
 				// aspectRatio: true,
 				title: 'test',
-				closeEffect: 'elastic'
+				titlePosition: 'over',
+				closeEffect: 'elastic',
+				beforeLoad: function() {
+					this.title = $(this.element).children().first().attr('title');
+				}
 			});
 		});
 	}
@@ -57,21 +61,26 @@ $(document).ready(function () {
 					'search': $("#home-search").val()
 				}
 			}).done(function (data) {
-				var max_width = $('#search-results').width()/3;
-
-				$('#search-results').html('');
-				$('#search-results').isotope('destroy');
-				
-				$('#search-results').append(data);
-				$('#search-results img').each(function(img){
-					$(img).css('max-width', max_width);
-				});
-				$('#search-results').imagesLoaded(function(e){
-					initIsotope();
-				})
+				if( ! data ){
+					$('#search-results').isotope('destroy');
+					$('#search-results').html('<h4 class="text-center">Няма намерени резултати</h4>');
+				}
+				else {
+					var max_width = $('#search-results').width()/3;
+					
+					$('#search-results').html('');
+					$('#search-results').isotope('destroy');
+					
+					$('#search-results').append(data);
+					$('#search-results img').each(function(img){
+						$(img).css('maxWidth', max_width);
+					});
+					$('#search-results').imagesLoaded(function(e){
+						initIsotope();
+					})
+				}
 			});
 		}
 	})
-	
 
 })

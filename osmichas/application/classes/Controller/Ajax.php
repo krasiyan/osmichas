@@ -146,6 +146,16 @@ class Controller_Ajax extends Controller_Main {
 				}		
 			}
 
+			$tags->join('image')->on('image.id','=','tag.image_id');
+			$tags->join('image_label')->on('image.id','=','image_label.image_id');
+
+			foreach( $parameters as $parameter )
+			{
+				if( is_numeric($parameter) ) 
+				{
+					$tags->where('image_label.label_id', '=', $parameter);
+				}		
+			}
 			$tags = $tags->find_all();
 
 			$tags_view = View::factory('frontend/ajax/search');

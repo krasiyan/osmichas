@@ -32,5 +32,10 @@
 				'left': <?= $tag->start_x ?>
 			},
 		<?php endforeach; ?>
+	];
+	var labels = [
+		<?php foreach( $image->labels->find_all() as $label ): ?>
+			'<?= $label->id ?>',
+		<?php endforeach; ?>
 	]
 </script>

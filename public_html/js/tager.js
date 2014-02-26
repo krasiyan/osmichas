@@ -81,7 +81,6 @@ $(function(){
 		}).done(function (data) {
 			var headline = [{ text: 'Можеш да ибереш една или повече категории', disabled: true}];
 			var data_with_headline = headline.concat(data);
-
 			$('#image-labels').select2({
 				data: data_with_headline,
 				tags: [],
@@ -118,7 +117,10 @@ $(function(){
 					console.log(data);
 					console.log($("#image").data('iddb'));
 				});
-			})
+			});
+
+			$('#image-labels').select2('val', labels);
+
 		});
 	}
 })
