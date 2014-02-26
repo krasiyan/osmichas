@@ -75,7 +75,8 @@ class Controller_Image extends Controller_Main {
 	{
 		$this->title = 'Добавяне на изображение';
 	}
-	public function action_tag()
+	
+	public function action_tager()
 	{
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
 
@@ -84,9 +85,6 @@ class Controller_Image extends Controller_Main {
 			return $this->redirect(URL::site('image/upload'));
 		}
 
-		$this->title = 'Обособяване на изображение';	
-
-		$this->bind_var('image', $image);
-
+		$this->add_vars('image', $image);
 	}
 }

@@ -3,7 +3,7 @@
 
 	<div class="row-fluid">
 		<div class="span12 text-center">
-			<img src="<?= URL::site('image/fetch', TRUE) . '/' . $image->id; ?>" data-iddb="<?= $image->id ?>" id="image" />
+			<img src="<?= URL::site('image/fetch', TRUE) . '/' . $image->id; ?>" data-iddb="<?= $image->id ?>" id="image" class="img-responsive" />
 		</div>
 	</div>
 	

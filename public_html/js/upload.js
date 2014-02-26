@@ -18,7 +18,7 @@ $(document).ready(function () {
 			},
 			success: function(file, response){
 				if( !isNaN(response) ) {
-					window.location = osmichas.url_base+"image/tag/"+response;
+					window.location = osmichas.url_base+"image/tager/"+response;
 				}
 			}
 		};

@@ -15,7 +15,7 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<!-- <li class="active"><a href="#">Търси</a></li> -->
-				<?php if( $controller != 'search' ): ?>
+				<?php /*if( $controller != 'search' ): ?>
 					<li>
 						<form action="<?= URL::site() ?>" method="POST" id="header-search-form" class="navbar-form navbar-left" role="search" >
 							<div class="input-group input-normal" id="header-search-wrapper">
@@ -26,8 +26,11 @@
 							</div>
 						</form>
 					</li>
-				<?php endif; ?>
-				<li class="<?= $controller == 'upload' ? 'active' : '' ?>">
+				<?php endif;*/ ?>
+				<li class="<?= $controller == 'search' ? 'active' : '' ?>">
+					<a href="<?= URL::site() ?>">Търси</a>
+				</li>				
+				<li class="<?= $controller == 'image' ? 'active' : '' ?>">
 					<a href="<?= URL::site('image/upload') ?>">Добави материал</a>
 				</li>
 				<li class="<?= $controller == 'about' ? 'active' : '' ?>">

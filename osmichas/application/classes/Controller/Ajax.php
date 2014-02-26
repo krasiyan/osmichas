@@ -136,21 +136,33 @@ class Controller_Ajax extends Controller_Main {
 			print json_encode($results);
 		}
 		else {
-			$tags_gathered = array();
+			$tags = ORM::factory('Tag');
+
 			foreach( $parameters as $parameter )
 			{
-				$tags = ORM::factory('Tag')
-					// ->where('label', 'LIKE', $parameter)
-					->where(
-						'tag.label', 
-						'SOUNDS LIKE', 
-						$parameter
-					)
-					->find_all()
-					->as_array('id', 'label');
-				$tags_gathered += $tags;
+				$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
 			}
-			print json_encode($tags_gathered);
+
+			$tags = $tags->find_all();
+
+			$tags_view = View::factory('frontend/ajax/search');
+			$tags_view->set('tags', $tags);
+			$this->response->body($tags_view);
 		}
+	}
+
+	public function action_view_image(){
+		$this->auto_render = FALSE;
+
+		$image = ORM::factory('Image', (int) $this->request->param('id'));
+		if(  ! $this->request->param('id') OR ! $image->loaded() )
+		{
+			$this->response->status(404);
+			return ;
+		}
+		
+		$image_view = View::factory('frontend/ajax/view_image');
+		$image_view->set('image', $image);
+		$this->response->body($image_view);
 	}
 }

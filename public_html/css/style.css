@@ -88,6 +88,11 @@ body {
 	max-width: 100% !important;
 }
 #search-results {
-	width: 80%;
+	width: 90%;
 	margin: 0 auto;
+
+	margin-top: 40px;
+}
+#image-box {
+	margin: 30px auto;
 }

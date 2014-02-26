@@ -12,5 +12,6 @@
 		</form>
 	</div>
 	<div class="row" id="search-results">
+		<?= View::factory('frontend/ajax/search')->set('tags', $tags) ?>
 	</div>
 </div>

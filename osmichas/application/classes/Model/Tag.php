@@ -10,7 +10,7 @@ class Model_Tag extends ORM {
 	protected $_table_name = 'tag';
 	protected $_primary_key = 'id';
 	protected $_belongs_to = array(
-		'image' => array('model' => 'Image', 'foreign_key' => 'image_id'),
+		'image' => array('model' => 'Image'),
 	);
 	
 }

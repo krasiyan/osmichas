@@ -12,13 +12,16 @@ return array(
 			'js/libs/jquery.validate.js',
 			'js/libs/jquery.tag.js',
 			'js/libs/jquery.isotope.min.js',
+			'js/libs/jquery.fancybox.js',
+			'js/libs/jquery.fancybox.pack.js',
+
 			//end lib
 			
 			//begin custom
 			'js/validation.js',
 			'js/search.js',
 			'js/upload.js',
-			'js/tag.js',
+			'js/tager.js',
 			//end custom
 		),
 		'styles' => array(
@@ -31,6 +34,7 @@ return array(
 			'css/jquery.tag.css' => 'screen',
 			'css/jquery-ui.custom.css' => 'screen',
 			'css/isotope.css' => 'screen',
+			'css/jquery.fancybox.css' => 'screen',
 			//end lib
 			
 			//begin custom

@@ -1,19 +1,19 @@
-$(document).ready(function () {
+$(function(){
+	$.extend(osmichas, {
+		initTager: function() {
+			$.extend(osmichas, {
+				tag_image: {
+					original_image: new Image(),
+					ratio: 1.0,
+					tags: {}
+				}
+			});
+			osmichas.tag_image.original_image.src = $("#image").attr('src');
 
-	if( osmichas.controller == 'image' && osmichas.action == 'tag' ){
-		$.extend(osmichas, {
-			tag_image: {
-				original_image: new Image(),
-				ratio: 1.0,
-				tags: {}
-			}
-		});
-		osmichas.tag_image.original_image.src = $("#image").attr('src');
-
-		osmichas.tag_image.original_image.onload = set_tags;
-		$(window).resize(set_tags);
-
-		function set_tags(){
+			osmichas.tag_image.original_image.onload = osmichas.setTags;
+			$(window).resize(osmichas.setTags);
+		}, 
+		setTags: function(){
 			var h_orig = osmichas.tag_image.original_image.height;
 			var h_dom = $("#image").height();
 
@@ -71,5 +71,9 @@ $(document).ready(function () {
 			});
 
 		}
+	});
+
+	if ( osmichas.controller == 'image' && osmichas.action == 'tager' ){
+		osmichas.initTager();
 	}
 })

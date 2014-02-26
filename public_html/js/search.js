@@ -19,33 +19,59 @@ $(document).ready(function () {
 			formatNoMatches: function() {return 'Няма намерени съвпадения...'}
 		});
 	});
+	
+	function initIsotope()
+	{
+		$('#search-results').isotope({
+			itemSelector : '.tag',
+			layoutMode : 'masonry',
+			animationEngine: 'best-available',
+			masonry: {
+				columnWidth: 50
+			}
+		},function(){
+			$('.fancybox').fancybox({
+				type: 'ajax',
+				// autoSize: true,
+				// autoResize: true,
+				fitToView: true,
+				// aspectRatio: true,
+				title: 'test',
+				closeEffect: 'elastic'
+			});
+		});
+	}
 
+	$('#search-results').imagesLoaded(function(e){
+		initIsotope();
+	})
+	
 	$("#home-search-form").bind('submit', function(e){
 		e.preventDefault();
 		if ( $("#home-search").val() ) {
 			$.ajax(osmichas.url_base + "ajax/search", {
 				method: 'POST',
-				dataType: 'json',
+				dataType: 'html',
 				async: true,
 				data: {
 					'search': $("#home-search").val()
 				}
 			}).done(function (data) {
 				var max_width = $('#search-results').width()/3;
-				for (image in data){
-					var $tag = $('<img src="'+osmichas.url_base +'image/fetch_tag/'+image+'" class="tag" title="'+data[image]+'" />');
-					$tag.css('max-width', max_width);
-					$tag.imagesLoaded(function(e){
-						$('#search-results').isotope( 'insert', e );		
-					})
-				}
+
+				$('#search-results').html('');
+				$('#search-results').isotope('destroy');
+				
+				$('#search-results').append(data);
+				$('#search-results img').each(function(img){
+					$(img).css('max-width', max_width);
+				});
+				$('#search-results').imagesLoaded(function(e){
+					initIsotope();
+				})
 			});
 		}
 	})
-	$('#search-results').isotope({
-		itemSelector : '.tag',
-		layoutMode : 'masonry',
-		animationEngine: 'css'
-	});
+	
 
 })

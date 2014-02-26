@@ -9,11 +9,11 @@ class Controller_Search extends Controller_Main {
 
 	public function action_index()
 	{
-		$this->title = 'асд..';
-		$this->add_vars(array(
-			'test' => 'test1'
-		));
-		var_dump($this->request->post());
+		$this->title = '';
+
+		$tags = ORM::factory('Tag')->find_all();
+		
+		$this->add_vars('tags', $tags);
 	}
 
 }
