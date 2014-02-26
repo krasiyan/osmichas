@@ -87,4 +87,21 @@ class Controller_Image extends Controller_Main {
 
 		$this->add_vars('image', $image);
 	}
+
+	public function action_remove()
+	{
+		$image = ORM::factory('Image', (int) $this->request->param('id'));
+
+		if(  $this->request->param('id') AND $image->loaded() )
+		{
+			$image->remove('labels');
+
+			foreach ( $image->tags->find_all() as $tag )
+			{
+				$tag->delete();
+			}
+			$image->delete();
+		}
+		$this->redirect(URL::site());
+	}
 }

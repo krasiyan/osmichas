@@ -226,7 +226,10 @@
 	margin-right: -100%;
 	padding: 2px 20px;
 	background: transparent; /* Fallback for web browsers that doesn't support RGBa */
-	background: rgba(0, 0, 0, 0.8);
+	/*background: rgba(0, 0, 0, 0.8);*/
+		background-image: linear-gradient(#88c149, #73a839 60%, #699934);
+	background-color: #3e8f3e;
+	background-repeat: repeat-x;
 	-webkit-border-radius: 15px;
 	   -moz-border-radius: 15px;
 	        border-radius: 15px;
@@ -235,6 +238,7 @@
 	font-weight: bold;
 	line-height: 24px;
 	white-space: nowrap;
+	font-size: 17px;
 }
 
 .fancybox-title-outside-wrap {

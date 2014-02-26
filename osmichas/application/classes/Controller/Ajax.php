@@ -140,7 +140,10 @@ class Controller_Ajax extends Controller_Main {
 
 			foreach( $parameters as $parameter )
 			{
-				$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
+				if( ! is_numeric($parameter) ) 
+				{
+					$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
+				}		
 			}
 
 			$tags = $tags->find_all();
@@ -164,5 +167,32 @@ class Controller_Ajax extends Controller_Main {
 		$image_view = View::factory('frontend/ajax/view_image');
 		$image_view->set('image', $image);
 		$this->response->body($image_view);
+	}
+
+	public function action_image_label(){
+		$this->auto_render = FALSE;
+
+		$image = ORM::factory('Image', (int) $this->request->post('imageid'));
+		$label = ORM::factory('Label', (int) $this->request->post('labelid'));
+
+		if(  
+			! $this->request->post('imageid') OR 
+			! $image->loaded() OR
+			! $this->request->post('labelid') OR 
+			! $label->loaded() OR
+			! in_array($this->request->post('action'), array('remove', 'add'))
+		)
+		{
+			print 0;
+		}
+		else {
+			if( $this->request->post('action') == 'add' ){
+				$image->add('labels', $label);	
+			}
+			else {
+				$image->remove('labels', $label);	
+			}
+			print 1;
+		}
 	}
 }

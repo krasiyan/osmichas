@@ -65,7 +65,6 @@ $(function(){
 						},
 						async: true
 					}).done(function (data) {
-
 					});
 				}
 			});
@@ -75,5 +74,51 @@ $(function(){
 
 	if ( osmichas.controller == 'image' && osmichas.action == 'tager' ){
 		osmichas.initTager();
+
+		$.ajax(osmichas.url_base + "ajax/labels/", {
+			dataType: 'json',
+			async: true
+		}).done(function (data) {
+			var headline = [{ text: 'Можеш да ибереш една или повече категории', disabled: true}];
+			var data_with_headline = headline.concat(data);
+
+			$('#image-labels').select2({
+				data: data_with_headline,
+				tags: [],
+				maximumInputLength: 30,
+				selectOnBlur: true,
+				minimumResultsForSearch: 100,
+				formatNoMatches: function() {return 'Липсват отговарящи на търсенето категории...'},
+				width: '75%'
+			}).on("select2-selecting", function(e) { 
+				$.ajax(osmichas.url_base + "ajax/image_label/", {
+					method: 'post',
+					dataType: 'json',
+					data: {
+						action: 'add',
+						imageid: $("#image").data('iddb'),
+						labelid: e.val
+					},
+					async: true
+				}).done(function (data) {
+					console.log(data);
+					console.log($("#image").data('iddb'));
+				});
+			}).on("select2-removing", function(e) { 
+				$.ajax(osmichas.url_base + "ajax/image_label/", {
+					method: 'post',
+					dataType: 'json',
+					data: {
+						action: 'remove',
+						imageid: $("#image").data('iddb'),
+						labelid: e.val
+					},
+					async: true
+				}).done(function (data) {
+					console.log(data);
+					console.log($("#image").data('iddb'));
+				});
+			})
+		});
 	}
 })

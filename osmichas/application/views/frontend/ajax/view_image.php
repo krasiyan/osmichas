@@ -8,7 +8,7 @@
 </div>
 
 <strong class="pull-left">
-	<?= implode(',', array_values($labels)) ?>
+	<?= implode(', ', array_values($labels)) ?>
 </strong>
 
 <div class="clearfix"></div>

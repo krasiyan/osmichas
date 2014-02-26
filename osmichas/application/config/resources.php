@@ -27,7 +27,7 @@ return array(
 		'styles' => array(
 			//begin lib
 			'css/bootstrap.min.css' => 'screen',
-			'css/bootstrap-theme.css' => 'screen',
+			'css/bootstrap-theme.min.css' => 'screen',
 			'css/select2.css' => 'screen',
 			'css/select2-bootstrap.css' => 'screen',
 			'css/dropzone.css' => 'screen',
