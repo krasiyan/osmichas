@@ -11,6 +11,7 @@ return array(
 			'js/libs/dropzone.min.js',
 			'js/libs/jquery.validate.js',
 			'js/libs/jquery.tag.js',
+			'js/libs/jquery.isotope.min.js',
 			//end lib
 			
 			//begin custom
@@ -29,6 +30,7 @@ return array(
 			'css/dropzone.css' => 'screen',
 			'css/jquery.tag.css' => 'screen',
 			'css/jquery-ui.custom.css' => 'screen',
+			'css/isotope.css' => 'screen',
 			//end lib
 			
 			//begin custom

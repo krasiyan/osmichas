@@ -12,6 +12,5 @@
 		</form>
 	</div>
 	<div class="row" id="search-results">
-
 	</div>
 </div>

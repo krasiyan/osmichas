@@ -124,7 +124,7 @@ class Controller_Ajax extends Controller_Main {
 		}
 	}
 
-	public function action_search_tags()
+	public function action_search()
 	{
 		$results = array();
 		if( 

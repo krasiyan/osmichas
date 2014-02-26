@@ -17,28 +17,13 @@ $(document).ready(function () {
 			},
 			formatSearching: function() {return 'Търсене...'},
 			formatNoMatches: function() {return 'Няма намерени съвпадения...'}
-			// ajax: {
-			// 	url: osmichas.url_base + "ajax/userlabels",
-			// 	dataType: 'json',
-			// 	data: function (term, page) {
-			// 		return {
-			// 			q: term, // search term
-			// 			page_limit: 10
-			// 		};
-			// 	},
-			// 	results: function (data, page) { // parse the results into the format expected by Select2.
-			// 		// since we are using custom formatting functions we do not need to alter remote JSON data
-			// 		// return {results: data.movies};
-			// 		console.log(data);
-			// 	}
-			// },
 		});
 	});
 
 	$("#home-search-form").bind('submit', function(e){
 		e.preventDefault();
 		if ( $("#home-search").val() ) {
-			$.ajax(osmichas.url_base + "ajax/search_tags", {
+			$.ajax(osmichas.url_base + "ajax/search", {
 				method: 'POST',
 				dataType: 'json',
 				async: true,
@@ -46,14 +31,21 @@ $(document).ready(function () {
 					'search': $("#home-search").val()
 				}
 			}).done(function (data) {
-				$('#search-results').html('');
+				var max_width = $('#search-results').width()/3;
 				for (image in data){
-					$('#search-results').append(
-						'<img src="' + 
-							osmichas.url_base +'image/fetch_tag/'+image+'" alt="'+data[image]+'" title="'+data[image]+'" />'
-					);
+					var $tag = $('<img src="'+osmichas.url_base +'image/fetch_tag/'+image+'" class="tag" title="'+data[image]+'" />');
+					$tag.css('max-width', max_width);
+					$tag.imagesLoaded(function(e){
+						$('#search-results').isotope( 'insert', e );		
+					})
 				}
 			});
 		}
 	})
+	$('#search-results').isotope({
+		itemSelector : '.tag',
+		layoutMode : 'masonry',
+		animationEngine: 'css'
+	});
+
 })
