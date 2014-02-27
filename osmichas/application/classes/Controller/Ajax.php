@@ -156,6 +156,10 @@ class Controller_Ajax extends Controller_Main {
 					$tags->where('image_label.label_id', '=', $parameter);
 				}		
 			}
+			$tags
+				->group_by('tag.id')
+				->order_by('image.created_at', 'DESC');
+
 			$tags = $tags->find_all();
 
 			$tags_view = View::factory('frontend/ajax/search');

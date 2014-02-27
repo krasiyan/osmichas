@@ -67,13 +67,13 @@ $(document).ready(function () {
 				}
 				else {
 					var max_width = $('#search-results').width()/3;
-					
+
 					$('#search-results').html('');
 					$('#search-results').isotope('destroy');
 					
 					$('#search-results').append(data);
 					$('#search-results img').each(function(img){
-						$(img).css('maxWidth', max_width);
+						$(img).css({'max-width' : max_width+" px"});
 					});
 					$('#search-results').imagesLoaded(function(e){
 						initIsotope();

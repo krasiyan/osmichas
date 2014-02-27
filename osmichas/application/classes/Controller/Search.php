@@ -11,8 +11,10 @@ class Controller_Search extends Controller_Main {
 	{
 		$this->title = '';
 
-		$tags = ORM::factory('Tag')->find_all();
-		
+		$tags = ORM::factory('Tag')
+			->order_by('tag.id', 'DESC')
+			->find_all();
+
 		$this->add_vars('tags', $tags);
 	}
 
