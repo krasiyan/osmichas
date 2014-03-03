@@ -54,7 +54,7 @@
 					
 					obj.wrap('<div class="jTagArea" />');
 					
-					$("<div class='jTagLabels'><div style='clear:both'></div></div>").insertAfter(obj.parent());
+					$("<div class='jTagLabels'><label>Добавени тагове:</label><div style='clear:both'></div></div>").insertAfter(obj.parent());
 					
 					$('<div class="jTagOverlay"></div>').insertBefore(obj);
 					

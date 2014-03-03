@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.'); ?>
-<div class="jumbotron">
-	<h2>Осмият час настана...</h2>
+<div class="jumbotron text-center">
+	<h3>Осмият час започна. Въвди своите критерии за търсене и натисни "Търси". Приятен час!</h3>
 	<div class="row">
 		<form action="<?= URL::site() ?>" method="POST" id="home-search-form">
 			<div class="control-group input-group" id="home-search-wrapper">

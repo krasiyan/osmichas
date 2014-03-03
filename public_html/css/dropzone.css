@@ -154,12 +154,15 @@
   display: block;
 }
 .dropzone {
-  border: 1px solid rgba(0,0,0,0.03);
+  /*border: 1px solid rgba(0,0,0,0.03);*/
+  border: 2px dashed #7A7A7A;
   min-height: 360px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.14);
   padding: 23px;
+  width: 70%;
+  float: left;
 }
 .dropzone .dz-default.dz-message {
   opacity: 1;

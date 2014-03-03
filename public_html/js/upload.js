@@ -9,7 +9,7 @@ $(document).ready(function () {
 			uploadMultiple: false,
 			addRemoveLinks: true,
 			thumbnailHeight: "100",
-			dictDefaultMessage: "<h3>Довлачи изображение тук<br />(или кликни)</h3>",
+			dictDefaultMessage: "<h3>Довлачи изображение тук<br />(или кликни за да избереш)</h3>",
 			dictRemoveFile: 'Премахни',
 			dictCancelUpload: 'Премахни',
 			dictMaxFilesExceeded: 'Не можеш да добавяш повече от 1 изображение наведнъж',
