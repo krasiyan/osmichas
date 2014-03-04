@@ -22,7 +22,7 @@
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<link rel="shortcut icon" href="<?= URL::site('img/favicon.png') ?>">
+		<link rel="icon" href="<?= URL::site('images/favicon.ico', TRUE) ?>">
 	</head>
 
 	<body>

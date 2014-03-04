@@ -15,6 +15,10 @@
 			</div>
 		</form>
 	</div>
+
+	<div class="row top-spacer" id="preloader" > 
+		<img src="<?=URL::site('', TRUE)?>images/preloader.gif" alt="Loading ..." />
+	</div>
 	<div class="row" id="search-results" style="display:none">
 		<?= View::factory('frontend/ajax/search')->set('tags', $tags) ?>
 	</div>

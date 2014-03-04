@@ -138,17 +138,28 @@ class Controller_Ajax extends Controller_Main {
 		else {
 			$tags = ORM::factory('Tag');
 
+			$tags->join('image')->on('image.id','=','tag.image_id');
+			$tags->join('image_label')->on('image.id','=','image_label.image_id');
+
+			$i = 0;
 			foreach( $parameters as $parameter )
 			{
 				if( ! is_numeric($parameter) ) 
 				{
+					if( $i++ and $i == 1)
+					{
+						$tags->where_open();
+					}
 					$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
 				}		
 			}
+			if( $i )
+			{
+				$tags->where_close();
+			}
 
-			$tags->join('image')->on('image.id','=','tag.image_id');
-			$tags->join('image_label')->on('image.id','=','image_label.image_id');
-
+			
+			$tags->where_open();
 			foreach( $parameters as $parameter )
 			{
 				if( is_numeric($parameter) ) 
@@ -156,6 +167,8 @@ class Controller_Ajax extends Controller_Main {
 					$tags->where('image_label.label_id', '=', $parameter);
 				}		
 			}
+			$tags->where_close();
+			
 			$tags
 				->group_by('tag.id')
 				->order_by('image.created_at', 'DESC');

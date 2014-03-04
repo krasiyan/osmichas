@@ -55,13 +55,20 @@ $(document).ready(function () {
 		});
 	}
 
+
+
 	$('#search-results').imagesLoaded(function(e){
+		togglePreloader();
 		$('#search-results').show();
 		initIsotope();
 	});
 	
 	$("#home-search-form").bind('submit', function(e){
 		e.preventDefault();
+		$('#search-results').isotope('destroy');
+		$('#search-results').html('');
+		togglePreloader();
+		
 		if ( $("#home-search").val() ) {
 			$.ajax(osmichas.url_base + "ajax/search", {
 				method: 'POST',
@@ -72,22 +79,26 @@ $(document).ready(function () {
 				}
 			}).done(function (data) {
 				if( ! data ){
-					$('#search-results').isotope('destroy');
+					togglePreloader();
 					$('#search-results').html('<h4 class="text-center">Няма намерени резултати</h4>');
 				}
 				else {
-					$('#search-results').html('');
-					$('#search-results').isotope('destroy');
 					$('#search-results').css({'display':'none'});
 					$('#search-results').append(data);
 
 					$('#search-results').imagesLoaded(function(e){
-					$('#search-results').css({'display':'block'});
-						initIsotope();
+						togglePreloader(function(){
+							$('#search-results').css({'display':'block'});
+							initIsotope();
+						});
 					})
 				}
 			});
 		}
 	})
+
+	function togglePreloader(next){
+		$("#preloader").slideToggle(400, next);
+	}
 
 })
