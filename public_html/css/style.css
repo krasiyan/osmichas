@@ -4,7 +4,7 @@ html {
 }
 
 body {
-	padding-top: 70px;
+	padding-top: 80px;
 	margin-bottom: 60px;
 }
 
@@ -32,7 +32,7 @@ body {
 
 /* reduce the main container's top padding */
 .jumbotron {
-	padding-top: 10px !important;
+	padding-top: 15px !important;
 }
 
 /* Begin select2 fixes */
@@ -156,4 +156,9 @@ body {
 
 #tager-description p {
 	font-size: 16px;
+}
+.tag {
+	margin: 7px;
+	border-radius: 8px;
+	vertical-align: top;
 }

@@ -1,6 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.'); ?>
 <div class="jumbotron text-center">
-	<h3>Осмият час започна. Въвди своите критерии за търсене и натисни "Търси". Приятен час!</h3>
+	<p>
+		<strong>„Осми час“</strong> е интернет приложение, насочено към ученици и студенти, 
+		предоставящо бързо и удобно търсене на графични материали с учебна насоченост. 
+	</p>
+	<h4>Осмият час започна. Въвeди своите критерии за търсене и натисни "Търси". Приятен час!</h4>
 	<div class="row">
 		<form action="<?= URL::site() ?>" method="POST" id="home-search-form">
 			<div class="control-group input-group" id="home-search-wrapper">
@@ -11,7 +15,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="row" id="search-results">
+	<div class="row" id="search-results" style="display:none">
 		<?= View::factory('frontend/ajax/search')->set('tags', $tags) ?>
 	</div>
 </div>

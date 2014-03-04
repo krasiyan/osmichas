@@ -11,7 +11,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="<?= URL::site() ?>">
-				<img src="<?=URL::site('', TRUE)?>images/logo.png">
+				<img src="<?=URL::site('', TRUE)?>images/logo.png" alt="Осми час">
 			</a>
 		</div>
 		<div class="navbar-collapse collapse">
