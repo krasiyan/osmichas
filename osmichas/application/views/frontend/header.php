@@ -10,7 +10,9 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<?= URL::site() ?>">Осми Час</a>
+			<a class="navbar-brand" href="<?= URL::site() ?>">
+				<img src="<?=URL::site('', TRUE)?>images/logo.png">
+			</a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">

@@ -27,7 +27,7 @@ class Controller_Image extends Controller_Main {
 		// $this->response->headers('Cache-Control', 'maxage='.$expires_header);
 		// $this->response->headers('Expires', gmdate('D, d M Y H:i:s', time() + $expires_header) . ' GMT');
 		// $this->response->headers('Content-length', $image->size);
-		$this->response->headers('Content-Type', 'image');
+		$this->response->headers('Content-Type', 'image/jpg');
 
 		echo base64_decode($image->content);
 	}
@@ -45,7 +45,7 @@ class Controller_Image extends Controller_Main {
 		
 		$expires_header = 60*60*24*14;
 
-		$this->response->headers('Content-Type', 'image');
+		$this->response->headers('Content-Type', 'image/jpg');
 
 		$temp_image = tmpfile();
 		fwrite($temp_image, base64_decode($tag->image->content));

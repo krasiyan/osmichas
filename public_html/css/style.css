@@ -22,6 +22,10 @@ body {
 	max-width: 200px
 }
 
+.navbar-brand img {
+	margin-top: -7%;
+}
+
 /* reduce the main container's top padding */
 .jumbotron {
 	padding-top: 10px !important;

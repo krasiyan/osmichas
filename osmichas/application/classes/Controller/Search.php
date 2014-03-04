@@ -9,7 +9,7 @@ class Controller_Search extends Controller_Main {
 
 	public function action_index()
 	{
-		$this->title = '';
+		$this->title = 'Бързо и удобно търсене на графични учебни материали';
 
 		$tags = ORM::factory('Tag')
 			->order_by('tag.id', 'DESC')
