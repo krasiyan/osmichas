@@ -1,3 +1,5 @@
 /public_html/index.php
 /public_html/.htaccess
 /osmichas/application/config/database.php
+/public_html/google*
+/public_html/tunnel_mysql.php
