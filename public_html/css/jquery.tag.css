@@ -94,7 +94,7 @@
 }
 
 .jTagTag span{
-	width: 100%;
+	min-width: 100%;
 	color:#fff;
 	min-height:20px;
 	position: absolute;

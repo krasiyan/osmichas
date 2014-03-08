@@ -22,7 +22,7 @@ $(document).ready(function () {
 	
 	function initIsotope()
 	{
-		var max_width = $('#search-results').width()/4;
+		var max_width = $('#search-results').width()/5;
 		$('#search-results img').each(function(img){
 			$($('#search-results img')[img]).css({'maxWidth' : max_width});
 			// console.log($('#search-results img')[img]);
@@ -65,11 +65,11 @@ $(document).ready(function () {
 	
 	$("#home-search-form").bind('submit', function(e){
 		e.preventDefault();
-		$('#search-results').isotope('destroy');
-		$('#search-results').html('');
-		togglePreloader();
-		
 		if ( $("#home-search").val() ) {
+			$('#search-results').isotope('destroy');
+			$('#search-results').html('');
+			togglePreloader();
+		
 			$.ajax(osmichas.url_base + "ajax/search", {
 				method: 'POST',
 				dataType: 'html',

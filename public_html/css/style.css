@@ -95,9 +95,15 @@ body {
 	vertical-align: top !important;
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 1100px){
 	#header-login input {
 		display:none;	
+	}
+	.navbar-brand img {
+		width: 60%;
+	}
+	#footer {
+		position: absolute;
 	}
 }
 

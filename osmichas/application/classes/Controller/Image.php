@@ -78,6 +78,8 @@ class Controller_Image extends Controller_Main {
 	
 	public function action_tager()
 	{
+		$this->title = 'Маркиране на изображение';
+
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
 
 		if(  ! $this->request->param('id') OR ! $image->loaded() )
