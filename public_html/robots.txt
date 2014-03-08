@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+Disallow: /ajax/view_image/
+Disallow: /image/remove/
