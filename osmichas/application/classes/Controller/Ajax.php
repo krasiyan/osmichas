@@ -138,45 +138,49 @@ class Controller_Ajax extends Controller_Main {
 		else {
 			$tags = ORM::factory('Tag');
 
+			$tags->select(DB::expr('GROUP_CONCAT(image_label.label_id) as label_ids'));
 			$tags->join('image')->on('image.id','=','tag.image_id');
 			$tags->join('image_label')->on('image.id','=','image_label.image_id');
 
-			$i = 0;
 			foreach( $parameters as $parameter )
 			{
 				if( ! is_numeric($parameter) ) 
 				{
-					if( $i++ and $i == 1)
-					{
-						$tags->where_open();
-					}
 					$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
 				}		
 			}
-			if( $i )
-			{
-				$tags->where_close();
-			}
 
-			
-			$tags->where_open();
-			foreach( $parameters as $parameter )
-			{
-				if( is_numeric($parameter) ) 
-				{
-					$tags->where('image_label.label_id', '=', $parameter);
-				}		
-			}
-			$tags->where_close();
-			
 			$tags
 				->group_by('tag.id')
 				->order_by('image.created_at', 'DESC');
 
 			$tags = $tags->find_all();
 
+			$tags_filtered = array();
+
+			foreach( $tags as $tag ){
+				$tag_label_ids = explode(',', $tag->label_ids);
+
+				$matching_search = TRUE;
+				foreach( $parameters as $parameter )
+				{
+					if( is_numeric($parameter) ) 
+					{
+						if( in_array($parameter, $tag_label_ids) === FALSE )
+						{
+							$matching_search = FALSE;
+							break;
+						}
+					}
+				}
+				if( $matching_search )
+				{
+					$tags_filtered[] = $tag;
+				}
+			}
+
 			$tags_view = View::factory('frontend/ajax/search');
-			$tags_view->set('tags', $tags);
+			$tags_view->set('tags', $tags_filtered);
 			$this->response->body($tags_view);
 		}
 	}
