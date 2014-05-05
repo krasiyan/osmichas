@@ -1,3 +1,9 @@
 [submodule "Kohana"]
 	path = Kohana
 	url = https://github.com/kohana/kohana.git
+[submodule "osmichas/modules/mysqli"]
+	path = osmichas/modules/mysqli
+	url = https://github.com/tomlankhorst/kohana-3.3-mysqli.git
+[submodule "osmichas/modules/facebook"]
+	path = osmichas/modules/facebook
+	url = https://github.com/pocesar/facebook-kohana.git

@@ -113,6 +113,19 @@ class Controller_Main extends Controller_Template {
 
 		View::set_global('controller', $this->controller);
 		View::set_global('action', $this->action);
+
+		$this->facebook = FB::factory();
+
+		$facebook_login_params = array(
+			'scope' => Kohana::$config->load('FB.permissions'),
+			'redirect_uri' => URL::site(Kohana::$config->load('FB.login_url'), TRUE)
+		);
+
+		$this->facebook_login_url = $this->facebook->getLoginUrl($facebook_login_params);
+		View::set_global('facebook_login_url', $this->facebook_login_url);
+
+		$this->user = ( Auth::instance()->logged_in() ? Auth::instance()->get_user() : null );
+		View::set_global('user', $this->user);
 	}
 
 	/**

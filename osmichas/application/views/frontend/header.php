@@ -51,7 +51,9 @@
 						</div>
 						<div class="btn-group">
 							<button type="submit" class="btn btn-success">Вход</button>
-							<button type="submit" class="btn btn-info">Нямаш парола?</button>
+							<a href="<?= $facebook_login_url?>" target="_blank">
+								<button type="button" class="btn btn-info">Влез с Facebook</button>
+							</a>
 						</div>
 					<!-- </div> -->
 				</form>
