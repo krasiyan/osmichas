@@ -1,7 +1,9 @@
 $(document).ready(function () {
 	if( osmichas.controller == 'image' && osmichas.action == 'upload' ){	
+		$("#source").hide();
+
 		Dropzone.options.imageUpload = {
-			autoProcessQueue: true,
+			autoProcessQueue: false,
 			paramName: "image",
 			acceptedFiles: "image/*", 
 			maxFiles: 1,
@@ -22,5 +24,28 @@ $(document).ready(function () {
 				}
 			}
 		};
+
+		$("[name='private_material']").bootstrapSwitch({
+			size: 'small',
+			onColor: 'success',
+			offColor: 'danger',
+			onText: 'Да',
+			offText: 'Не',
+			onSwitchChange: function(event, state){
+				$("#source").slideToggle()
+			}
+		});		
+
+		$("[name='tos']").bootstrapSwitch({
+			size: 'large',
+			onColor: 'success',
+			offColor: 'danger',
+			onText: 'ДА',
+			offText: 'НЕ',
+			onSwitchChange: function(event, state){
+				
+			}
+		});
+
 	}
 })

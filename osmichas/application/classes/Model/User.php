@@ -28,6 +28,24 @@ class Model_User extends Model_Auth_User {
 				array('email'),
 				array(array($this, 'unique'), array('email', ':value')),
 			),
+			'name' => array(
+				array('not_empty')
+			)
 		);
+	}
+
+	public function is_editor()
+	{
+		return $this->has('roles', ORM::factory('Role', array('name' => 'editor')));
+	}
+	
+	public function is_admin()
+	{
+		return $this->has('roles', ORM::factory('Role', array('name' => 'admin')));
+	}
+	
+	public function contributions_left()
+	{
+		return Kohana::$config->load('application.contributions_for_editor');
 	}
 }

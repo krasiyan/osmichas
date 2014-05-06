@@ -14,6 +14,7 @@ return array(
 			'js/libs/jquery.isotope.min.js',
 			'js/libs/jquery.fancybox.js',
 			'js/libs/jquery.fancybox.pack.js',
+			'js/libs/bootstrap-switch.min.js',
 
 			//end lib
 			
@@ -35,6 +36,7 @@ return array(
 			'css/jquery-ui.custom.css' => 'screen',
 			'css/isotope.css' => 'screen',
 			'css/jquery.fancybox.css' => 'screen',
+			'css/bootstrap-switch.min.css' => 'screen',
 			//end lib
 			
 			//begin custom

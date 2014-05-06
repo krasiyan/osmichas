@@ -160,7 +160,7 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
   background: rgba(0,0,0,0.14);
-  padding: 23px;
+  /*padding: 23px;*/
   width: 70%;
   float: left;
 }

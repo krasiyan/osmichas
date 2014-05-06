@@ -88,7 +88,7 @@ body {
 
 /* reduce the width of the header login form */
 #header-login input {
-	max-width:140px !important;
+	max-width:135px !important;
 }
 
 #header-login .form-group{
@@ -134,6 +134,9 @@ body {
 .top-spacer {
 	margin-top: 30px;
 }
+.bot-spacer {
+	margin-bottom: 30px;
+}
 #image-labels .select2-search-choice {
 	line-height: 18px !important;
 	font-size: 15px;
@@ -167,4 +170,16 @@ body {
 	margin: 7px;
 	border-radius: 8px;
 	vertical-align: top;
+}
+
+#login-form {
+	width: 60%;
+}
+
+#registration-form {
+	width: 60%;
+}
+
+#noacc-email {
+	width: 40%;
 }

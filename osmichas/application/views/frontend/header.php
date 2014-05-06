@@ -16,62 +16,72 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<!-- <li class="active"><a href="#">Търси</a></li> -->
-				<?php /*if( $controller != 'search' ): ?>
-					<li>
-						<form action="<?= URL::site() ?>" method="POST" id="header-search-form" class="navbar-form navbar-left" role="search" >
-							<div class="input-group input-normal" id="header-search-wrapper">
-								<input type="text" name="query" class="form-control input-normal" id="header-search" placeholder="Въведи ключова дума">
-								<div class="input-group-btn">
-									<button type="submit" class="btn btn-success">Търси</button>
-								</div>
-							</div>
-						</form>
-					</li>
-				<?php endif;*/ ?>
 				<li class="<?= $controller == 'search' ? 'active' : '' ?>">
 					<a href="<?= URL::site() ?>">Търси</a>
 				</li>				
-				<li class="<?= $controller == 'image' ? 'active' : '' ?>">
+				<li class="<?= ($controller == 'image' AND $action == 'upload') ? 'active' : '' ?>">
 					<a href="<?= URL::site('image/upload') ?>">Добави материал</a>
-				</li>
+				</li>			
+				<?php if( $user AND $user->is_editor()): ?>	
+					<li class="<?= ($controller == 'image' AND $action == 'approve') ? 'active' : '' ?>">
+						<a href="<?= URL::site('image/upload') ?>">
+							Чакащи одобрение
+							<span class="badge">42</span>
+						</a>
+					</li>
+				<?php endif ?>
 				<li class="<?= $controller == 'about' ? 'active' : '' ?>">
 					<a href="<?= URL::site('about') ?>">За проекта</a>
 				</li>
-				<!-- <li><a href="#contact">Контакти</a></li> -->
+				<li>
+					<a class="disabled">
+						<div class="fb-like" data-href="http://omsichas.info" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+					</a>
+				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<form class="navbar-form navbar-right form-inline" id="header-login" role="form">
-					<!-- <div class="control-group input-group" id="header-search-wrapper"> -->
-						<div class="form-group control-group">
-							<input type="text" name="email" placeholder="Имейл" class="form-control">	
-						</div>
-						<div class="form-group control-group">
-							<input type="password" name="password" placeholder="Парола" class="form-control">
-						</div>
+				<?php if (!$user): ?>
+					<form method="POST" action="<?=URL::site('user/login') ?>" class="navbar-form navbar-right form-inline" id="header-login" role="form" >
 						<div class="btn-group">
-							<button type="submit" class="btn btn-success">Вход</button>
-							<a href="<?= $facebook_login_url?>" target="_blank">
-								<button type="button" class="btn btn-info">Влез с Facebook</button>
+							<a href="<?=URL::site('user/login')?>" class="btn btn-default">
+								Вход
+							</a>
+							<a href="<?=URL::site('user/register')?>" class="btn btn-success">
+								Регистрация
+							</a>
+							<a href="<?= $fb_login_url?>" class="btn btn-info">
+								Влез с FB
 							</a>
 						</div>
-					<!-- </div> -->
-				</form>
-
-				<!-- <li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						Избери категория <b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
-						<li class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
-					</ul>
-				</li> -->
+					</form>
+				<?php else: ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							Здравей, <?= $user->name ?><b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<?php if( $user->is_admin()): ?>
+								<li class="dropdown-header">Вие сте администратор!</li>
+							<?php elseif( $user->is_editor()): ?>
+								<li class="dropdown-header">Вие сте редактор!</li>
+							<?php else: ?>
+								<li class="dropdown-header">Добавете <?= $user->contributions_left() ?> материала за да станете редактор!</li>
+							<?php endif ?>
+							<li><a href="<?= URL::site('user/profile') ?>">Профил</a></li>
+							<li><a href="<?= URL::site('user/contributions') ?>">Моите материали</a></li>
+							<?php if( $user->is_editor()): ?>
+								<li>
+									<a href="<?= URL::site('image/approve') ?>">
+										Материали за одобрение
+										<span class="badge">31</span>
+									</a>
+								</li>
+							<?php endif ?>
+							<li class="divider"></li>
+							<li><a href="<?= URL::site('user/logout')?>">Изход</a></li>
+						</ul>
+					</li>
+				<?php endif ?>
 			</ul>
 		</div>
 	</div>

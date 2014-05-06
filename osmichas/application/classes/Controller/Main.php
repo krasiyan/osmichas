@@ -114,6 +114,7 @@ class Controller_Main extends Controller_Template {
 		View::set_global('controller', $this->controller);
 		View::set_global('action', $this->action);
 
+		$this->auth = Auth::instance();
 		$this->facebook = FB::factory();
 
 		$facebook_login_params = array(
@@ -122,7 +123,9 @@ class Controller_Main extends Controller_Template {
 		);
 
 		$this->facebook_login_url = $this->facebook->getLoginUrl($facebook_login_params);
-		View::set_global('facebook_login_url', $this->facebook_login_url);
+		View::set_global('fb_login_url', $this->facebook_login_url);
+
+		View::set_global('fb_app_id', Kohana::$config->load('FB.appId'));
 
 		$this->user = ( Auth::instance()->logged_in() ? Auth::instance()->get_user() : null );
 		View::set_global('user', $this->user);

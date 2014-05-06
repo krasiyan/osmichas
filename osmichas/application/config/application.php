@@ -8,5 +8,7 @@ return array(
 	),
 
 	// application secret key
-	'secret_key' => 'sdafsddfsdsdffsdfsd'
+	'secret_key' => 'sdafsddfsdsdffsdfsd',
+
+	'contributions_for_editor' => 3
 );

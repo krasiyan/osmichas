@@ -15,21 +15,28 @@ class Controller_User extends Controller_Main {
 			$this->redirect(URL::site('user/profile'));
 	}
 
-	public function action_profile()
-	{
-		$this->auto_render = FALSE;
-		
-		if (! $this->user )
-			$this->redirect(URL::site('user/login'));
-
-		$education = Arr::get($this->facebook->api('/me'),'education', array());
-		$school = Arr::get(Arr::get(end($education), 'school', array()), 'name');
-		var_dump($school);
-	}
 
 	public function action_login()
 	{
+		$message = '';
 
+		if ($this->valid_post)
+		{
+			if ($this->auth->login(
+				$this->request->post('email'), 
+				$this->request->post('password')
+			))
+			{
+				$this->redirect(URL::site('user/profile'));
+			}
+			else 
+			{
+				$message = "Грешно потребителско име или парола!";
+			}
+		}
+
+		$this->add_vars('message', $message);
+		$this->add_vars('email', $this->request->post('email'));
 	}
 
 	public function action_logout()
@@ -37,7 +44,7 @@ class Controller_User extends Controller_Main {
 		if (! $this->user )
 			$this->redirect(URL::site('user/login'));
 		else {
-			Auth::instance()->logout();
+			$this->auth->logout();
 			$this->redirect(URL::site());
 		}
 	}
@@ -68,8 +75,52 @@ class Controller_User extends Controller_Main {
 			))->save();
 		}
 
-		Auth::instance()->force_login($user);
+		$this->auth->force_login($user);
 		return $this->redirect(URL::site('user/profile'));
+	}
+
+	public function action_register()
+	{
+		$errors = array();
+		$user = ORM::factory('User');
+
+		if ($this->valid_post)
+		{
+			$user->values(
+				$this->request->post(), 
+				array('name', 'password', 'email', 'school')
+			);
+			try
+			{
+				$extra_rules = Validation::factory($this->request->post())
+					->rule('password', 'not_empty')
+					->rule('school', 'not_empty')
+					->rule('password_confirm', 'matches', array(':validation', 'password', 'password_confirm'));
+
+				$user->save($extra_rules);
+				$user->add('roles', ORM::factory('Role', array('name'=>'member')));
+				$this->redirect(URL::site('user/profile'));
+			}
+			catch (ORM_Validation_Exception $e) {
+				$errors = $e->errors('models');
+				$errors = array_merge($errors, Arr::get($errors, '_external', array()));
+			}
+		}
+
+		$this->add_vars('errors', $errors);
+		$this->add_vars('user', $user);
+	}
+
+	public function action_profile()
+	{
+		$this->auto_render = FALSE;
+		
+		if (! $this->user )
+			$this->redirect(URL::site('user/login'));
+
+		$education = Arr::get($this->facebook->api('/me'),'education', array());
+		$school = Arr::get(Arr::get(end($education), 'school', array()), 'name');
+		var_dump($school);
 	}
 
 }
