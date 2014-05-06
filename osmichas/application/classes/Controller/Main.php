@@ -127,7 +127,7 @@ class Controller_Main extends Controller_Template {
 
 		View::set_global('fb_app_id', Kohana::$config->load('FB.appId'));
 
-		$this->user = ( Auth::instance()->logged_in() ? Auth::instance()->get_user() : null );
+		$this->user = ( $this->auth->logged_in() ? $this->auth->get_user() : null );
 		View::set_global('user', $this->user);
 	}
 

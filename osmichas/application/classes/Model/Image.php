@@ -13,8 +13,11 @@ class Model_Image extends ORM {
 		'tags' => array('model' => 'Tag', 'foreign_key' => 'image_id'),
 		'labels' => array('model' => 'Label', 'through' => 'image_label'),
 	);
-	
-	public function upload($image)
+	protected $_belongs_to = array(
+		'user' => array('model' => 'User', 'foreign_key' => 'user_id')
+	);
+
+	public function upload($image, $user_id, $source)
 	{
 		if (
 			! Upload::valid($image) OR
@@ -43,6 +46,9 @@ class Model_Image extends ORM {
 		$this->extension = $image_obj->type;
 		$this->size = filesize($image_obj->file);
 		$this->content = base64_encode($image_obj->render('jpg'));
+		$this->user_id = $user_id;
+		if($source)
+			$this->source = $source;
 		$this->save();
 
 		return $this;

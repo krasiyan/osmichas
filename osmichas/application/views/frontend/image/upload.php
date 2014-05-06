@@ -17,11 +17,19 @@
 						Този материал е личен и имам права над него
 						<input type="checkbox" name="private_material" checked>
 					</p>
-					<div class="col-md">
+					<div id="source-wrapper" class="control-group col-md">
 						<input type="text" name="source" id="source" placeholder="Моля, посочи източника на материала" class="form-control input-md" >
 					</div>
 				</label>
 			</div>
+
+			<?php if (!$user): ?>
+				<div id="noacc-email-wrapper" class="control-group col-md text-center center-block">
+					<label class="sr-only" for="email">Имейл адрес</label>
+					Никога няма да публиуваме твоите данни!
+					<input type="email" name="email" class="form-control text-center center-block input-md" id="noacc-email" placeholder="Имейл адрес" focus>
+				</div>
+			<?php endif ?>
 		</form>
 		<div class="pull-right" id="upload-description">
 			<p>
@@ -35,15 +43,7 @@
 			</ul>
 		</div>
 
-		<?php if (!$user): ?>
-			<div class="clearfix"></div>
-			<div class="col-md text-center 	center-block">
-				<label class="sr-only" for="email">Имейл адрес</label>
-				Ние никога няма да публиуваме твоя имейл адрес в интернет пространството!
-				<input type="email" name="email" class="form-control text-center center-block input-md" id="noacc-email" placeholder="Имейл адрес" focus>
-			</div>
-		<?php endif ?>
-		
+
 		<div class="clearfix"></div>
 
 		<div class="checkbox text-center">
@@ -51,7 +51,7 @@
 				<h3>
 					Съгласен съм с условията на сайта. Добави материала сега!
 				</h3>
-					<input type="checkbox" name="tos" value="0">
+				<input type="checkbox" name="tos" value="0" disabled>
 			</label>
 		</div>
 	</div>

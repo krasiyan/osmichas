@@ -9,6 +9,7 @@ class Controller_Ajax extends Controller_Main {
 
 	public function before()
 	{
+		parent::before();
 		$this->auto_render = FALSE;
 
 		// if( ! $this->ajax )
@@ -48,21 +49,58 @@ class Controller_Ajax extends Controller_Main {
 	public function action_upload_image()
 	{
 		$error = FALSE;
-		if ( ! empty($_FILES) AND Arr::get($_FILES, 'image') ) {
-
-			$image = ORM::factory('Image')
-				->upload(Arr::get($_FILES, 'image'));
-			
-			if( ! $image ) $error = TRUE;
+		if (!$this->user)
+		{
+			if (
+				(!$this->request->post('private_material') OR $this->request->post('private_material') == "off") AND 
+				!$this->request->post('source') 
+			)
+			{
+				$error = "Моля, посочи източник!";
+			}
+			else if (!$this->request->post('email')) 
+			{
+				$error = "Моля, въведи имейл!";
+			}
+			else 
+			{
+				$user = ORM::factory('User', array('email' => $this->request->post('email')));
+				
+				if ($user->loaded() AND $user->active) 
+				{
+					$error = "Този имейл вече е регистриран!";
+				}
+				else if (!$user->loaded()) 
+				{
+					$user = $user->soft_register($this->request->post('email'));
+					if(!is_object($user))
+						$error = $user;
+				}
+			}
 		}
-		else $error = TRUE;
+		else 
+		{
+			$user = $this->user;
+		}
+		if (!$error)
+		{
+			if (!empty($_FILES) AND Arr::get($_FILES, 'image'))
+			{
+				$image = ORM::factory('Image')
+					->upload(Arr::get($_FILES, 'image'), $user->id, $this->request->post('source'));
+				if (!$image) $error = 'Невалидно изображение!';
+			}
+			else $error = 'Невалидно изображение!';
+		}
 		
 
-		if( $error) {
+		if ($error) 
+		{
 			$this->response->status(500);
-			print 'Невалидно изображение!';
+			print $error;
 		}
-		else {
+		else 
+		{
 			print $image->id;
 		}
 	}

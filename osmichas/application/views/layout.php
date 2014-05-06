@@ -60,7 +60,13 @@
 			var osmichas = {
 					url_base: '<?= URL::base(TRUE, FALSE) ?>',
 					controller: '<?= $controller ?>',
-					action: '<?= $action ?>'
+					action: '<?= $action ?>',
+					user: {
+						<?php if( $user ): ?>
+							id: '<?= $user->id ?>',
+							name: '<?= $user->name ?>'
+						<?php endif ?>
+					}
 			};
 		</script>
 

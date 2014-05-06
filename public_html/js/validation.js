@@ -64,4 +64,17 @@ $(document).ready(function () {
 			}
 		}
 	});
+
+	$('#imageUpload').validate({
+		rules: {
+			source: {
+				required: true
+			},
+			email: {
+				required: true,
+				email: true
+			}
+		}
+	});
+
 })

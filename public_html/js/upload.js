@@ -1,8 +1,9 @@
 $(document).ready(function () {
 	if( osmichas.controller == 'image' && osmichas.action == 'upload' ){	
-		$("#source").hide();
-
-		Dropzone.options.imageUpload = {
+		$("#source-wrapper").hide();
+		
+		Dropzone.autoDiscover = false;
+		window.imageUploadDropzone = new Dropzone("#imageUpload", {
 			autoProcessQueue: false,
 			paramName: "image",
 			acceptedFiles: "image/*", 
@@ -23,7 +24,12 @@ $(document).ready(function () {
 					window.location = osmichas.url_base+"image/tager/"+response;
 				}
 			}
-		};
+		});
+
+		window.imageUploadDropzone.on("addedfile", function(file) {
+			$("[name='tos']").bootstrapSwitch('disabled', false);
+		})
+
 
 		$("[name='private_material']").bootstrapSwitch({
 			size: 'small',
@@ -32,18 +38,26 @@ $(document).ready(function () {
 			onText: 'Да',
 			offText: 'Не',
 			onSwitchChange: function(event, state){
-				$("#source").slideToggle()
+				$("#source-wrapper").slideToggle()
 			}
 		});		
 
 		$("[name='tos']").bootstrapSwitch({
 			size: 'large',
+			disabled: true,
 			onColor: 'success',
 			offColor: 'danger',
 			onText: 'ДА',
 			offText: 'НЕ',
 			onSwitchChange: function(event, state){
-				
+				if (state){
+					if ($("#imageUpload").valid()) {
+						window.imageUploadDropzone.processQueue();
+					}
+					else {
+						$("[name='tos']").bootstrapSwitch('state', false);
+					}
+				} 
 			}
 		});
 

@@ -181,5 +181,18 @@ body {
 }
 
 #noacc-email {
-	width: 40%;
+	width: 60%;
+}
+
+#noacc-email-wrapper {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	margin-left: -170px;
+	width: 340px;
+	bottom: 30px;
+}
+
+.checkbox {
+	margin-top: 0px !important;
 }
