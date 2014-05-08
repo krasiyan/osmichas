@@ -21,6 +21,8 @@ class Model_User extends Model_Auth_User {
 		'images'      => array('model' => 'Image'),
 	);
 
+	protected $_load_with = array('images');
+
 	public function rules()
 	{
 		return array(
@@ -45,7 +47,12 @@ class Model_User extends Model_Auth_User {
 		return $this->has('roles', ORM::factory('Role', array('name' => 'admin')));
 	}
 	
-	public function contributions_left()
+	public function contributions_added()
+	{
+		return $this->images->find_all()->count();
+	}
+
+	public function contributions_needed()
 	{
 		return Kohana::$config->load('application.contributions_for_editor');
 	}
@@ -63,5 +70,12 @@ class Model_User extends Model_Auth_User {
 			var_dump($errors);
 			return Arr::get($errors, 'emails');
 		}
+	}
+
+	public function can_edit_image($image) 
+	{
+		if ($image->user_id == $this->id OR $this->is_editor())
+			return TRUE;
+		return FALSE;
 	}
 }

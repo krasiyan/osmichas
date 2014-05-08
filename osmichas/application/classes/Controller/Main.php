@@ -129,6 +129,12 @@ class Controller_Main extends Controller_Template {
 
 		$this->user = ( $this->auth->logged_in() ? $this->auth->get_user() : null );
 		View::set_global('user', $this->user);
+
+		$this->waiting_for_approval = ORM::factory('Image')
+			->where('confirmed', '=', 0)
+			->find_all()
+			->count();
+		View::set_global('waiting_for_approval', $this->waiting_for_approval);
 	}
 
 	/**

@@ -1,18 +1,16 @@
 <?php defined('SYSPATH') or die('No direct script access.'); ?>
 <div class="jumbotron text-center">
-	<p>
-		Моля, попълни регистрационната форма или
-		<a href="<?= $fb_login_url?>" class="btn btn-info">
-			Влез с Facebook&nbsp;&nbsp;<span class="icon-fb">
-		</a>
-	</p>
-	
+	<h3>Личен профил</h3>
+	<?php if($errors AND $errors == "success"): ?>
+		<div class="alert alert-success">Успешно промени профила си!</div>
+	<?php endif ?>
+
 	<form method="POST" action="" class="form-horizontal center-block" role="form" id="registration-form">
 		<?php 
 			$fields = array(
 				'name' => 'Име и фамилия',
 				'email' => 'Имейл адрес', 
-				'password' => 'Парола', 
+				'password' => 'Парола (въведи ако искаш да промениш)', 
 				'password_confirm' => 'Повтори паролата', 
 				'school' => 'Училище'
 			);
@@ -22,13 +20,15 @@
 			<div class="form-group <?=Arr::get($errors, $field) ? 'has-error' : '' ?>">
 				<div class="col-lg">
 					<label class="sr-only" for="<?= $field ?>"><?= $placeholder ?></label>
+					<label class=""><?=$placeholder?></label>
 					<input 
 						type="<?= ($field == 'password' OR $field == 'password_confirm') ? 'password' : 'text' ?>" 
 						name="<?= $field ?>" 
 						value="<?= ( isset($user->$field) AND $field != 'password' AND $field != 'password_confirm' ) ? $user->$field : '' ?>"
 						id="<?= $field ?>" 
 						placeholder="<?= $placeholder ?>" 
-						class="form-control input-lg" >
+						class="form-control input-lg" 
+						<?=$field == "name" || $field == "email" ? 'disabled' : '' ?>>
 
 					<?php if (Arr::get($errors, $field)): ?>
 						<span class="help-block"><?=Arr::get($errors, $field) ?></span>
@@ -38,7 +38,7 @@
 		<?php endforeach; ?>
 		<div class="form-group">
 			<div class="col-lg">
-				<button type="submit" class="btn btn-lg btn-success">Регистрация</button>
+				<button type="submit" class="btn btn-lg btn-success">Редактирай</button>
 			</div>
 		</div>
 	</form>

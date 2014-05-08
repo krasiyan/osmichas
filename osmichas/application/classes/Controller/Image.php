@@ -81,18 +81,22 @@ class Controller_Image extends Controller_Main {
 		$this->title = 'Маркиране на изображение';
 
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
-
-		if(  ! $this->request->param('id') OR ! $image->loaded() )
-		{
+		if (
+			!$image->loaded() OR
+			!$this->user->can_edit_image($image) OR
+			!$this->request->param('id')
+		)
 			return $this->redirect(URL::site('image/upload'));
-		}
-
+		
 		$this->add_vars('image', $image);
 	}
 
 	public function action_remove()
 	{
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
+
+		if(!$this->user->can_edit_image($image))
+			return $this->redirect(URL::site())
 
 		if(  $this->request->param('id') AND $image->loaded() )
 		{

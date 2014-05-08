@@ -54,4 +54,21 @@ class Model_Image extends ORM {
 		return $this;
 	}
 	
+	public function print_labels(){
+		$labels = array();
+		foreach($this->labels->find_all() as $label)
+		{
+			$labels[] = $label->text;
+		}
+		return implode(',', $labels);
+	}
+
+	public function print_tags(){
+		$tags = array();
+		foreach($this->tags->find_all() as $tag)
+		{
+			$tags[] = $tag->label;
+		}
+		return implode(',', $tags);
+	}
 }

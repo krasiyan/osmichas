@@ -25,8 +25,7 @@
 				<?php if( $user AND $user->is_editor()): ?>	
 					<li class="<?= ($controller == 'image' AND $action == 'approve') ? 'active' : '' ?>">
 						<a href="<?= URL::site('image/upload') ?>">
-							Чакащи одобрение
-							<span class="badge">42</span>
+							Чакащи одобрение&nbsp;&nbsp;<span class="badge"><?= $waiting_for_approval ?></span>
 						</a>
 					</li>
 				<?php endif ?>
@@ -44,13 +43,13 @@
 					<form method="POST" action="<?=URL::site('user/login') ?>" class="navbar-form navbar-right form-inline" id="header-login" role="form" >
 						<div class="btn-group">
 							<a href="<?=URL::site('user/login')?>" class="btn btn-default">
-								Вход
+								Вход&nbsp;&nbsp;<span class="glyphicon glyphicon-log-in">
 							</a>
 							<a href="<?=URL::site('user/register')?>" class="btn btn-success">
-								Регистрация
+								Регистрация&nbsp;&nbsp;<span class="glyphicon glyphicon-pencil">
 							</a>
 							<a href="<?= $fb_login_url?>" class="btn btn-info">
-								Влез с FB
+								Влез с Facebook&nbsp;&nbsp;<span class="icon-fb">
 							</a>
 						</div>
 					</form>
@@ -65,20 +64,53 @@
 							<?php elseif( $user->is_editor()): ?>
 								<li class="dropdown-header">Вие сте редактор!</li>
 							<?php else: ?>
-								<li class="dropdown-header">Добавете <?= $user->contributions_left() ?> материала за да станете редактор!</li>
+								<li class="dropdown-header">
+									<?php 
+										$contributions_added = $user->contributions_added();
+										$contributions_needed = $user->contributions_needed();
+										$contributions_left = $contributions_needed - $contributions_added;
+										$contributions_percentage = round($contributions_added / $contributions_needed * 100);
+									?>
+									След <?= $contributions_left ?> материал<?= $contributions_left > 1 ? 'а' : '' ?> ще бъдеш редактор
+									<?php if($contributions_added > 0): ?>
+										<div class="progress progress-striped">
+											<div 
+												class="progress-bar progress-bar-<?= $contributions_percentage > 50 ? 'success' : 'danger' ?>" 
+												role="progressbar" 
+												aria-valuenow="<?=$contributions_percentage?>" 
+												aria-valuemin="0" 
+												aria-valuemax="100" 
+												style="width:<?= $contributions_percentage ?>%">
+											<?= $contributions_added ?>/<?= $contributions_needed ?>
+											</div>
+										</div>
+									<?php endif ?>
+								</li>
 							<?php endif ?>
-							<li><a href="<?= URL::site('user/profile') ?>">Профил</a></li>
-							<li><a href="<?= URL::site('user/contributions') ?>">Моите материали</a></li>
+							<li>
+								<a href="<?= URL::site('user/profile') ?>">
+									Профил&nbsp;&nbsp;<span class="glyphicon glyphicon-user pull-right"></span>
+								</a>
+							</li>
+							<li>
+								<a href="<?= URL::site('user/contributions') ?>">
+									Моите материали&nbsp;&nbsp;<span class="glyphicon glyphicon-heart pull-right"></span>
+								</a>
+							</li>
 							<?php if( $user->is_editor()): ?>
 								<li>
 									<a href="<?= URL::site('image/approve') ?>">
 										Материали за одобрение
-										<span class="badge">31</span>
+										<span class="badge menu_approval_badge"><?= $waiting_for_approval ?></span>
 									</a>
 								</li>
 							<?php endif ?>
 							<li class="divider"></li>
-							<li><a href="<?= URL::site('user/logout')?>">Изход</a></li>
+							<li>
+								<a href="<?= URL::site('user/logout')?>">
+									Изход <span class="glyphicon glyphicon-log-out pull-right"></span>
+								</a>
+							</li>
 						</ul>
 					</li>
 				<?php endif ?>

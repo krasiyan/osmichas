@@ -1,7 +1,10 @@
 <?php defined('SYSPATH') or die('No direct script access.'); ?>
 <div class="jumbotron text-center">
 	<p>
-		Моля, въведи своето потребителско име и парола за <strong>„Осми час“</strong> или влез с <a href="<?= $fb_login_url ?>" class="btn btn-info">Facebook</a>
+		Моля, въведи своето потребителско име и парола за <strong>„Осми час“</strong> или 
+		<a href="<?= $fb_login_url?>" class="btn btn-info">
+			Влез с Facebook&nbsp;&nbsp;<span class="icon-fb">
+		</a>
 	</p>
 	
 	<p>

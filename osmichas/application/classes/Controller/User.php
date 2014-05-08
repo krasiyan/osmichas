@@ -18,6 +18,9 @@ class Controller_User extends Controller_Main {
 
 	public function action_login()
 	{
+		if ($this->user)
+			return $this->redirect(URL::site('user/profile'));
+		
 		$message = '';
 
 		if ($this->valid_post)
@@ -113,14 +116,50 @@ class Controller_User extends Controller_Main {
 
 	public function action_profile()
 	{
-		$this->auto_render = FALSE;
-		
 		if (! $this->user )
 			$this->redirect(URL::site('user/login'));
+		
+		$errors = array();	
+		$user = $this->user;
+		
+		if ($this->valid_post)
+		{
+			if ($this->request->post('password'))
+				$user->values(
+					$this->request->post(), 
+					array('password', 'school')
+				);
+			else 
+				$user->values(
+					$this->request->post(), 
+					array('school')
+				);
 
-		$education = Arr::get($this->facebook->api('/me'),'education', array());
-		$school = Arr::get(Arr::get(end($education), 'school', array()), 'name');
-		var_dump($school);
+			try
+			{
+				$extra_rules = Validation::factory($this->request->post());
+				if ($this->request->post('password')){
+					$extra_rules->rule('password', 'not_empty');
+					$extra_rules->rule('password_confirm', 'matches', array(':validation', 'password', 'password_confirm'));
+				}
+				$extra_rules->rule('school', 'not_empty');
+
+				$user->save($extra_rules);
+				$errors = 'success';
+			}
+			catch (ORM_Validation_Exception $e) {
+				$errors = $e->errors('models');
+				$errors = array_merge($errors, Arr::get($errors, '_external', array()));
+			}
+		}
+
+		$this->add_vars('errors', $errors);
+		$this->add_vars('user', $user);
 	}
 
+	public function action_contributions()
+	{
+		$images = $this->user->images->find_all();
+		$this->add_vars('images', $images);
+	}
 }
