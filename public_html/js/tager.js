@@ -122,5 +122,74 @@ $(function(){
 			$('#image-labels').select2('val', labels);
 
 		});
+
+		$("[name='approved']").bootstrapSwitch({
+			size: 'small',
+			onColor: 'success',
+			offColor: 'danger',
+			onText: 'Да',
+			offText: 'Не',
+			onSwitchChange: function(event, state){
+				console.log(state);
+				$.ajax(osmichas.url_base + "ajax/image_status/", {
+					method: 'post',
+					dataType: 'json',
+					data: {
+						status: (state ? 1 : 0),
+						imageid: $("#image").data('iddb')
+					},
+					async: true
+				}).done(function (data) {
+					console.log(data);
+					console.log($("#image").data('iddb'));
+				});
+			}
+		});
+
+
+		$("[name='private_material']").bootstrapSwitch({
+			size: 'small',
+			onColor: 'success',
+			offColor: 'danger',
+			onText: 'Да',
+			offText: 'Не',
+			onSwitchChange: function(event, state){
+				$("#source-wrapper").slideToggle()
+				if(state){
+					$.ajax(osmichas.url_base + "ajax/image_source/", {
+						method: 'post',
+						dataType: 'json',
+						data: {
+							source: '',
+							imageid: $("#image").data('iddb')
+						},
+						async: true
+					}).done(function (data) {
+						console.log(data);
+						console.log($("#image").data('iddb'));
+					});
+				}
+			}
+		});	
+	
+		if($("[name='private_material']").bootstrapSwitch('state'))
+			$("#source-wrapper").hide();
+
+		$("#source-save").bind('click', function(){
+			if($("#source").val()){
+				$.ajax(osmichas.url_base + "ajax/image_source/", {
+					method: 'post',
+					dataType: 'json',
+					data: {
+						source: $("#source").val(),
+						imageid: $("#image").data('iddb')
+					},
+					async: true
+				}).done(function (data) {
+					console.log(data);
+					console.log($("#image").data('iddb'));
+				});
+			}
+		})
 	}
 })

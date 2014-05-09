@@ -70,7 +70,7 @@ $(document).ready(function () {
 			$('#search-results').html('');
 			togglePreloader();
 		
-			$.ajax(osmichas.url_base + "ajax/search", {
+			$.ajax(osmichas.url_base + "ajax/search_image", {
 				method: 'POST',
 				dataType: 'html',
 				async: true,

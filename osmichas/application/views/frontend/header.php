@@ -22,13 +22,19 @@
 				<li class="<?= ($controller == 'image' AND $action == 'upload') ? 'active' : '' ?>">
 					<a href="<?= URL::site('image/upload') ?>">Добави материал</a>
 				</li>			
-				<?php if( $user AND $user->is_editor()): ?>	
-					<li class="<?= ($controller == 'image' AND $action == 'approve') ? 'active' : '' ?>">
-						<a href="<?= URL::site('image/upload') ?>">
+				<?php if ($user AND $user->is_editor()): ?>	
+					<li class="<?= ($controller == 'image' AND $action == 'for_approval') ? 'active' : '' ?>">
+						<a href="<?= URL::site('image/for_approval') ?>">
 							Чакащи одобрение&nbsp;&nbsp;<span class="badge"><?= $waiting_for_approval ?></span>
 						</a>
 					</li>
-				<?php endif ?>
+				<?php elseif ($user AND !$user->is_editor()): ?>
+					<li class="<?= ($controller == 'user' AND $action == 'contributions') ? 'active' : '' ?>">
+						<a href="<?= URL::site('user/contributions') ?>">
+							Моите материали&nbsp;&nbsp;<span class="badge"><?= $user->contributions_added() ?></span>
+						</a>
+					</li>
+				<?php endif; ?>
 				<li class="<?= $controller == 'about' ? 'active' : '' ?>">
 					<a href="<?= URL::site('about') ?>">За проекта</a>
 				</li>
@@ -99,7 +105,7 @@
 							</li>
 							<?php if( $user->is_editor()): ?>
 								<li>
-									<a href="<?= URL::site('image/approve') ?>">
+									<a href="<?= URL::site('image/for_approval') ?>">
 										Материали за одобрение
 										<span class="badge menu_approval_badge"><?= $waiting_for_approval ?></span>
 									</a>

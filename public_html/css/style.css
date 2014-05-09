@@ -12,9 +12,8 @@ body {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
-	/* Set the fixed height of the footer here */
 	min-height: 30px;
-	border-top: 1px solid #999999;
+	/*border-top: 1px solid #999999;*/
 	background-color: #eeeeee;
 	line-height: 30px;
 }
@@ -233,4 +232,13 @@ body {
 
 .badge {
 	background-color: #428bca;
+}
+.fancybox-next {
+    right: -80px !important;
+    width: 5% !important;
+}
+
+.fancybox-prev {
+    left: -80px !important;
+    width: 5% !important;
 }

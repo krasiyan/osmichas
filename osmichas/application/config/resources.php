@@ -23,6 +23,7 @@ return array(
 			'js/search.js',
 			'js/upload.js',
 			'js/tager.js',
+			'js/approve_personal.js'
 			//end custom
 		),
 		'styles' => array(

@@ -28,7 +28,7 @@
 						id="<?= $field ?>" 
 						placeholder="<?= $placeholder ?>" 
 						class="form-control input-lg" 
-						<?=$field == "name" || $field == "email" ? 'disabled' : '' ?>>
+						<?=$field == "email" ? 'disabled' : '' ?>>
 
 					<?php if (Arr::get($errors, $field)): ?>
 						<span class="help-block"><?=Arr::get($errors, $field) ?></span>

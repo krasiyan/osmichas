@@ -17,7 +17,7 @@ class Model_Image extends ORM {
 		'user' => array('model' => 'User', 'foreign_key' => 'user_id')
 	);
 
-	public function upload($image, $user_id, $source)
+	public function upload($image, $user, $source)
 	{
 		if (
 			! Upload::valid($image) OR
@@ -46,7 +46,9 @@ class Model_Image extends ORM {
 		$this->extension = $image_obj->type;
 		$this->size = filesize($image_obj->file);
 		$this->content = base64_encode($image_obj->render('jpg'));
-		$this->user_id = $user_id;
+		$this->user_id = $user->id;
+		if($this->user->is_editor())
+			$this->confirmed = 1;
 		if($source)
 			$this->source = $source;
 		$this->save();

@@ -12,10 +12,20 @@ class Controller_Search extends Controller_Main {
 		$this->title = 'Бързо и удобно търсене на графични учебни материали';
 
 		$tags = ORM::factory('Tag')
+			->join('image')
+				->on('image.id', '=', 'tag.image_id')
+			->where('image.confirmed', '=', 1)
 			->order_by('tag.id', 'DESC')
 			->find_all();
 
-		$this->add_vars('tags', $tags);
+		$tag_filtered = array();
+		foreach($tags as $tag)
+		{
+			if($tag->image->confirmed)
+				$tags_filtered[] = $tag;
+		}
+
+		$this->add_vars('tags', $tags_filtered);
 	}
 
 }

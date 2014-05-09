@@ -65,7 +65,7 @@ class Controller_User extends Controller_Main {
 		$user = ORM::factory('User')
 			->where('fbid', '=', $fbid)
 			->find();
-		
+
 		if ( ! $user->loaded())
 		{
 			$education = Arr::get($this->facebook->api('/me'),'education', array());
@@ -84,6 +84,8 @@ class Controller_User extends Controller_Main {
 
 	public function action_register()
 	{
+		$this->title = "Регистрация";
+
 		$errors = array();
 		$user = ORM::factory('User');
 
@@ -101,7 +103,8 @@ class Controller_User extends Controller_Main {
 					->rule('password_confirm', 'matches', array(':validation', 'password', 'password_confirm'));
 
 				$user->save($extra_rules);
-				$user->add('roles', ORM::factory('Role', array('name'=>'member')));
+				$user->add('roles', ORM::factory('Role', array('name'=>'login')));
+				$this->auth->force_login($user);
 				$this->redirect(URL::site('user/profile'));
 			}
 			catch (ORM_Validation_Exception $e) {
@@ -116,7 +119,9 @@ class Controller_User extends Controller_Main {
 
 	public function action_profile()
 	{
-		if (! $this->user )
+		$this->title = "Потребителски профил";
+
+		if (!$this->user)
 			$this->redirect(URL::site('user/login'));
 		
 		$errors = array();	
@@ -127,12 +132,12 @@ class Controller_User extends Controller_Main {
 			if ($this->request->post('password'))
 				$user->values(
 					$this->request->post(), 
-					array('password', 'school')
+					array('password', 'name', 'school')
 				);
 			else 
 				$user->values(
 					$this->request->post(), 
-					array('school')
+					array('name', 'school')
 				);
 
 			try
@@ -159,6 +164,10 @@ class Controller_User extends Controller_Main {
 
 	public function action_contributions()
 	{
+		$this->title = "Моите материали";
+		if (!$this->user)
+			return $this->redirect(URL::site());
+
 		$images = $this->user->images->find_all();
 		$this->add_vars('images', $images);
 	}

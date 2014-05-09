@@ -27,7 +27,7 @@ class Controller_Image extends Controller_Main {
 		// $this->response->headers('Cache-Control', 'maxage='.$expires_header);
 		// $this->response->headers('Expires', gmdate('D, d M Y H:i:s', time() + $expires_header) . ' GMT');
 		// $this->response->headers('Content-length', $image->size);
-		$this->response->headers('Content-Type', 'image/jpg');
+		$this->response->headers('Content-Type', $image->mime);
 
 		echo base64_decode($image->content);
 	}
@@ -78,11 +78,12 @@ class Controller_Image extends Controller_Main {
 	
 	public function action_tager()
 	{
-		$this->title = 'Маркиране на изображение';
+		$this->title = 'Тагване на изображение';
 
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
 		if (
-			!$image->loaded() OR
+			! $this->user OR
+ 			!$image->loaded() OR
 			!$this->user->can_edit_image($image) OR
 			!$this->request->param('id')
 		)
@@ -95,10 +96,7 @@ class Controller_Image extends Controller_Main {
 	{
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
 
-		if(!$this->user->can_edit_image($image))
-			return $this->redirect(URL::site())
-
-		if(  $this->request->param('id') AND $image->loaded() )
+		if(  $this->user AND $this->user->can_edit_image($image) AND $this->request->param('id') AND $image->loaded() )
 		{
 			$image->remove('labels');
 
@@ -109,5 +107,35 @@ class Controller_Image extends Controller_Main {
 			$image->delete();
 		}
 		$this->redirect(URL::site());
+	}
+
+	public function action_for_approval()
+	{
+		$this->title = "Материали за одобрение";
+		if (!$this->user OR !$this->user->is_editor())
+			$this->redirect(URL::site());
+
+		$images = ORM::factory('Image')
+			->where('confirmed', '=', 0)
+			->find_all();
+		$this->add_vars('images', $images);
+	}
+
+	public function action_view()
+	{
+		$image = ORM::factory('Image', $this->request->param('id'));
+		if (!$image->confirmed)
+			$this->redirect(URL::site());
+		
+		$labels = array_values($image->labels->find_all()->as_array('id', 'text')); 
+		$tags = array_values($image->tags->find_all()->as_array('id', 'label'));
+
+		$this->meta['keywords'] = implode(',', $labels + $tags);
+		$this->meta['description'] = implode(',', $labels + $tags);
+		$this->title = substr( implode(',', $tags), 0, 200);
+
+		$this->add_vars('image', $image);
+		$this->add_vars('labels', $labels);
+		$this->add_vars('tags', $tags);
 	}
 }

@@ -20,6 +20,6 @@
 		<img src="<?=URL::site('', TRUE)?>images/preloader.gif" alt="Loading ..." />
 	</div>
 	<div class="row" id="search-results" style="display:none">
-		<?= View::factory('frontend/ajax/search')->set('tags', $tags) ?>
+		<?= View::factory('frontend/ajax/search_image')->set('tags', $tags) ?>
 	</div>
 </div>

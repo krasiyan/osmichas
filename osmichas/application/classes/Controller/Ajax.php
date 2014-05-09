@@ -11,16 +11,10 @@ class Controller_Ajax extends Controller_Main {
 	{
 		parent::before();
 		$this->auto_render = FALSE;
-
-		// if( ! $this->ajax )
-		// {
-		// 	$this->redirect(URL::site());
-		// }
 	}
 
 	public function action_labels()
 	{
-		
 		$labels = ORM::factory('Label')->find_all()->as_array();
 
 		$labels_rendered = $this->fetch_labels($labels);
@@ -73,6 +67,7 @@ class Controller_Ajax extends Controller_Main {
 				else if (!$user->loaded()) 
 				{
 					$user = $user->soft_register($this->request->post('email'));
+					$this->auth->force_login($user);
 					if(!is_object($user))
 						$error = $user;
 				}
@@ -87,7 +82,7 @@ class Controller_Ajax extends Controller_Main {
 			if (!empty($_FILES) AND Arr::get($_FILES, 'image'))
 			{
 				$image = ORM::factory('Image')
-					->upload(Arr::get($_FILES, 'image'), $user->id, $this->request->post('source'));
+					->upload(Arr::get($_FILES, 'image'), $user, $this->request->post('source'));
 				if (!$image) $error = 'Невалидно изображение!';
 			}
 			else $error = 'Невалидно изображение!';
@@ -108,61 +103,82 @@ class Controller_Ajax extends Controller_Main {
 	public function action_save_tag()
 	{
 		$image = ORM::factory('Image', $this->request->post('imageid'));
-		
-		if( 
-			! $this->request->post('imageid') OR 
-			! $image->loaded() OR
-			! $this->request->post('width') OR
-			! $this->request->post('height') OR
-			! $this->request->post('label')
-		) {
-			print 0;
-		}
-		else 
+		if($this->user AND $this->user->can_edit_image($image))
 		{
-			$tag = ORM::factory('Tag');
-			$tag->image = $image;
-			$tag->start_x = $this->request->post('left');
-			$tag->start_y = $this->request->post('top');
-			
-			$tag->end_x = $this->request->post('left') + $this->request->post('width');
-			$tag->end_y = $this->request->post('top') + $this->request->post('height');
-
-			$tag->label = $this->request->post('label');
-
-			if( $tag->save() )
-			{
-				print $tag->id;
+			if( 
+				! $this->request->post('imageid') OR 
+				! $image->loaded() OR
+				! $this->request->post('width') OR
+				! $this->request->post('height') OR
+				! $this->request->post('label')
+			) {
+				print 0;
 			}
 			else 
 			{
-				print '0';
+				$tag = ORM::factory('Tag');
+				$tag->image = $image;
+				$tag->start_x = $this->request->post('left');
+				$tag->start_y = $this->request->post('top');
+				
+				$tag->end_x = $this->request->post('left') + $this->request->post('width');
+				$tag->end_y = $this->request->post('top') + $this->request->post('height');
+
+				$tag->label = $this->request->post('label');
+
+				if ( $tag->save() )
+				{
+					if (!$this->user->is_editor())
+					{
+						$tag->image->confirmed = 0;
+						$tag->image->save();
+					}
+
+					print $tag->id;
+				}
+				else 
+				{
+					print '0';
+				}
 			}
 		}
+		else
+			print 0;
 	}
 
 	public function action_delete_tag()
 	{
 		$image = ORM::factory('Image', $this->request->post('imageid'));
-		$tag = ORM::factory('Tag', $this->request->post('tagid'));
-		
-		if( 
-			! $this->request->post('imageid') OR 
-			! $image->loaded() OR
-			! $this->request->post('tagid') OR
-			! $tag->loaded() OR
-			$tag->image_id != $image->id
-		) {
+		if($this->user AND $this->user->can_edit_image($image)) {
+
+			$tag = ORM::factory('Tag', $this->request->post('tagid'));
+			
+			if( 
+				! $this->request->post('imageid') OR 
+				! $image->loaded() OR
+				! $this->request->post('tagid') OR
+				! $tag->loaded() OR
+				$tag->image_id != $image->id
+			) {
+				print 0;
+			}
+			else 
+			{
+				$tag->delete();
+				if (!$this->user->is_editor())
+				{
+					$tag->image->confirmed = 0;
+					$tag->image->save();
+				}
+				
+				print 1;
+			}
+		}
+		else
 			print 0;
-		}
-		else 
-		{
-			$tag->delete();
-			print 1;
-		}
 	}
 
-	public function action_search()
+	public function action_search_image()
 	{
 		$results = array();
 		if( 
@@ -211,19 +227,19 @@ class Controller_Ajax extends Controller_Main {
 						}
 					}
 				}
-				if( $matching_search )
+				if( $matching_search AND $tag->image->confirmed )
 				{
 					$tags_filtered[] = $tag;
 				}
 			}
 
-			$tags_view = View::factory('frontend/ajax/search');
+			$tags_view = View::factory('frontend/ajax/search_image');
 			$tags_view->set('tags', $tags_filtered);
 			$this->response->body($tags_view);
 		}
 	}
 
-	public function action_view_image(){
+	public function action_preview_image(){
 		$this->auto_render = FALSE;
 
 		$image = ORM::factory('Image', (int) $this->request->param('id'));
@@ -233,7 +249,7 @@ class Controller_Ajax extends Controller_Main {
 			return ;
 		}
 		
-		$image_view = View::factory('frontend/ajax/view_image');
+		$image_view = View::factory('frontend/ajax/preview_image');
 		$image_view->set('image', $image);
 		$this->response->body($image_view);
 	}
@@ -264,4 +280,37 @@ class Controller_Ajax extends Controller_Main {
 			print 1;
 		}
 	}
+
+	public function action_image_status()
+	{
+		$this->auto_render = FALSE;
+		if ((int) $this->request->post('imageid') AND $this->user AND $this->request->post('status') !== NULL)
+		{
+			$image = ORM::factory('Image', (int) $this->request->post('imageid'));
+			if ($this->user->can_edit_image($image)){
+				$image->confirmed = ( $this->request->post('status') ? 1 : 0 );
+				$image->save();
+				print 1;
+				return;
+			}
+		}
+		print 0;
+	}
+
+	public function action_image_source()
+	{
+		$this->auto_render = FALSE;
+		if ((int) $this->request->post('imageid') AND $this->user)
+		{
+			$image = ORM::factory('Image', (int) $this->request->post('imageid'));
+			if ($this->user->can_edit_image($image)){
+				$image->source = ( $this->request->post('source') ? : NULL );
+				$image->save();
+				print 1;
+				return;
+			}
+		}
+		print 0;
+	}
+
 }
