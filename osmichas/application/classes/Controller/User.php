@@ -73,6 +73,7 @@ class Controller_User extends Controller_Main {
 			
 			$user->values(array(
 				'fbid' => $fbid,
+				'name' => Arr::get($fb_data, 'name', 'Анонимен'),
 				'email' => Arr::get($fb_data, 'email'),
 				'school' => $school_name,
 			))->save();
