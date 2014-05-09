@@ -221,12 +221,12 @@ body {
 	min-width: 250px;
 }
 
-.glyphicon {
+ul.dropdown-menu .glyphicon {
 	color: #428bca;
 }
 
 .menu_approval_badge {
-	margin-right: -9px;
+	margin-right: -4px;
 	float: right;
 }
 

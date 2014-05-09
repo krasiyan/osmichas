@@ -26,7 +26,7 @@
 			<?php if (!$user): ?>
 				<div id="noacc-email-wrapper" class="control-group col-md text-center center-block">
 					<label class="sr-only" for="email">Имейл адрес</label>
-					Никога няма да публиуваме твоите данни!
+					Никога няма да публикуваме твоите данни!
 					<input type="email" name="email" class="form-control text-center center-block input-md" id="noacc-email" placeholder="Имейл адрес" focus>
 				</div>
 			<?php endif ?>

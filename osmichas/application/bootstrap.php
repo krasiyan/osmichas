@@ -131,7 +131,7 @@ Kohana::modules(array(
 	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	'facebook'   => MODPATH_PROJECT.'facebook',  // Facebook API integration
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
-	// 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
+	'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
 
 

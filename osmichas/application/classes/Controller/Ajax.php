@@ -194,13 +194,18 @@ class Controller_Ajax extends Controller_Main {
 
 			$tags->select(DB::expr('GROUP_CONCAT(image_label.label_id) as label_ids'));
 			$tags->join('image')->on('image.id','=','tag.image_id');
-			$tags->join('image_label')->on('image.id','=','image_label.image_id');
+			$tags->join('image_label', 'LEFT')->on('image.id','=','image_label.image_id');
 
 			foreach( $parameters as $parameter )
 			{
 				if( ! is_numeric($parameter) ) 
 				{
-					$tags->or_where('tag.label', 'SOUNDS LIKE', $parameter);
+					$tags->where_open();
+						$tags->where('tag.label', '=', $parameter);
+						$tags->or_where('tag.label', 'LIKE', $parameter.'%');
+						$tags->or_where('tag.label', 'LIKE', '%'.$parameter);
+						$tags->or_where('tag.label', 'LIKE', '%'.$parameter.'%');
+					$tags->where_close();
 				}		
 			}
 
@@ -209,7 +214,7 @@ class Controller_Ajax extends Controller_Main {
 				->order_by('image.created_at', 'DESC');
 
 			$tags = $tags->find_all();
-
+			
 			$tags_filtered = array();
 
 			foreach( $tags as $tag ){
