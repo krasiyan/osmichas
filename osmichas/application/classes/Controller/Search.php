@@ -18,7 +18,7 @@ class Controller_Search extends Controller_Main {
 			->order_by('tag.id', 'DESC')
 			->find_all();
 
-		$tag_filtered = array();
+		$tags_filtered = array();
 		foreach($tags as $tag)
 		{
 			if($tag->image->confirmed)
