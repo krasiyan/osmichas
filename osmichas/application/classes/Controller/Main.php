@@ -136,6 +136,7 @@ class Controller_Main extends Controller_Template {
 			->count();
 		View::set_global('waiting_for_approval', $this->waiting_for_approval);
 
+		$this->meta['fb:app_id'] = Kohana::$config->load('FB.appId');
 		$this->meta['og:title'] = Kohana::$config->load('application.title');
 		$this->meta['og:type'] = "website";
 		$this->meta['og:image'] = URL::site(Kohana::$config->load('application.logo'), TRUE);
