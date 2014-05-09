@@ -6,7 +6,7 @@ return array(
 		'author' => 'Krasiyan Nedelchev',
 		'description' => "",
 	),
-
+	'logo' => 'images/logo.png',
 	// application secret key
 	'secret_key' => 'sdafsddfsdsdffsdfsd',
 
